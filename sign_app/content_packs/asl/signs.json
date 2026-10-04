@@ -1,0 +1,449 @@
+[
+  {
+    "id": "asl_a",
+    "label": "A",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Make a fist with thumb resting against the side of the index finger.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_b",
+    "label": "B",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Hold fingers together and straight up, thumb tucked across palm.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_c",
+    "label": "C",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Curve fingers and thumb into a C shape.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_d",
+    "label": "D",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Index finger up, other fingers curled, thumb touching middle finger.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_e",
+    "label": "E",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Fingers curled down, thumb tucked under fingertips.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_f",
+    "label": "F",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Index finger and thumb touching in a circle, other fingers up.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_g",
+    "label": "G",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Index finger and thumb extended sideways, other fingers curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_h",
+    "label": "H",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Index and middle fingers extended sideways, thumb tucked.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_i",
+    "label": "I",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Pinky finger up, other fingers curled, thumb tucked.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_k",
+    "label": "K",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Index and middle fingers up in V, thumb between them.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_l",
+    "label": "L",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Index finger and thumb extended in L shape, other fingers curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_m",
+    "label": "M",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Thumb tucked under first three fingers.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_n",
+    "label": "N",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Thumb tucked under first two fingers.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_o",
+    "label": "O",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Fingers curved to touch thumb in O shape.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_p",
+    "label": "P",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Like K but palm facing down, thumb between index and middle.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_q",
+    "label": "Q",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Like G but palm facing down.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_r",
+    "label": "R",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Index and middle fingers crossed, others curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_s",
+    "label": "S",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Fist with thumb over fingers.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_t",
+    "label": "T",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Thumb tucked between index and middle fingers, fist.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_u",
+    "label": "U",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Index and middle fingers up together, others curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_v",
+    "label": "V",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Index and middle fingers in V shape.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_w",
+    "label": "W",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Index, middle, ring fingers up in W shape.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_x",
+    "label": "X",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Index finger hooked, others curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_y",
+    "label": "Y",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "description": "Thumb and pinky extended, other fingers curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_j",
+    "label": "J",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Motion sign: Trace a J in the air with pinky finger. Not scored in V1.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true
+    }
+  },
+  {
+    "id": "asl_z",
+    "label": "Z",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "description": "Motion sign: Trace a Z in the air with index finger. Not scored in V1.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true
+    }
+  },
+  {
+    "id": "asl_0",
+    "label": "0",
+    "category": "numbers",
+    "difficulty": "easy",
+    "description": "Fingers curved to form O shape (same as O).",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_1",
+    "label": "1",
+    "category": "numbers",
+    "difficulty": "easy",
+    "description": "Index finger up, others curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_2",
+    "label": "2",
+    "category": "numbers",
+    "difficulty": "easy",
+    "description": "Index and middle fingers up.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_3",
+    "label": "3",
+    "category": "numbers",
+    "difficulty": "easy",
+    "description": "Thumb, index, middle up (like 3).",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_4",
+    "label": "4",
+    "category": "numbers",
+    "difficulty": "easy",
+    "description": "Four fingers up, thumb tucked.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_5",
+    "label": "5",
+    "category": "numbers",
+    "difficulty": "easy",
+    "description": "All five fingers spread.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_6",
+    "label": "6",
+    "category": "numbers",
+    "difficulty": "medium",
+    "description": "Pinky, ring, middle up; index and thumb touching.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_7",
+    "label": "7",
+    "category": "numbers",
+    "difficulty": "medium",
+    "description": "Ring, middle, index up; pinky and thumb touching.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_8",
+    "label": "8",
+    "category": "numbers",
+    "difficulty": "medium",
+    "description": "Middle, index, thumb up; pinky and ring curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_9",
+    "label": "9",
+    "category": "numbers",
+    "difficulty": "medium",
+    "description": "Index up, thumb and pinky touching, others curled.",
+    "scored": true,
+    "handedness": "both"
+  },
+  {
+    "id": "asl_hello",
+    "label": "Hello",
+    "category": "greetings",
+    "difficulty": "easy",
+    "description": "Wave hand from side of head outward. Motion sign - watch and learn.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  },
+  {
+    "id": "asl_goodbye",
+    "label": "Goodbye",
+    "category": "greetings",
+    "difficulty": "easy",
+    "description": "Wave hand back and forth. Motion sign - watch and learn.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  },
+  {
+    "id": "asl_thank_you",
+    "label": "Thank You",
+    "category": "greetings",
+    "difficulty": "easy",
+    "description": "Touch chin with fingertips, move hand forward and down. Motion sign.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  },
+  {
+    "id": "asl_please",
+    "label": "Please",
+    "category": "greetings",
+    "difficulty": "easy",
+    "description": "Flat hand circles on chest. Motion sign.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  },
+  {
+    "id": "asl_sorry",
+    "label": "Sorry",
+    "category": "greetings",
+    "difficulty": "easy",
+    "description": "Fist circles on chest. Motion sign.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  },
+  {
+    "id": "asl_hospital",
+    "label": "Hospital",
+    "category": "phrases",
+    "difficulty": "medium",
+    "description": "H sign taps opposite arm. Motion sign.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  },
+  {
+    "id": "asl_help",
+    "label": "Help",
+    "category": "phrases",
+    "difficulty": "easy",
+    "description": "Fist on flat hand, both move up. Motion sign.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  },
+  {
+    "id": "asl_yes",
+    "label": "Yes",
+    "category": "phrases",
+    "difficulty": "easy",
+    "description": "Fist nods up and down. Motion sign.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  },
+  {
+    "id": "asl_no",
+    "label": "No",
+    "category": "phrases",
+    "difficulty": "easy",
+    "description": "Index and middle tap thumb. Motion sign.",
+    "scored": false,
+    "handedness": "both",
+    "metadata": {
+      "motion_sign": true,
+      "phrase": true
+    }
+  }
+]

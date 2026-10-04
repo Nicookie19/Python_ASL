@@ -1,0 +1,1127 @@
+2026-10-03 14:12:16,949 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:12:17,391 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:12:17,394 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:12:17,394 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:12:17,395 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:12:17,450 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:12:17,454 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:12:18,075 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:12:18,508 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:14:56,755 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:14:57,079 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:14:57,083 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:14:57,083 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:14:57,083 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:14:57,150 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:14:57,154 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:14:57,686 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:14:58,036 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:16:28,676 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:16:28,986 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:16:28,990 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:16:28,990 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:16:28,990 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:16:29,023 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:16:29,027 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:16:29,522 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:16:29,803 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:16:46,850 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:16:47,226 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:16:47,230 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:16:47,231 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:16:47,231 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:16:47,276 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:16:47,280 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:16:47,989 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:16:48,274 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:17:14,120 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:17:14,437 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:17:14,440 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:17:14,440 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:17:14,440 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:17:14,475 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:17:14,478 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:17:14,984 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:17:15,323 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:18:04,954 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:18:05,345 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:18:05,348 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:18:05,349 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:18:05,349 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:18:05,380 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:18:05,384 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:18:05,831 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:18:06,109 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:18:27,668 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 14:18:27,670 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-03 14:20:08,049 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:20:08,426 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:20:08,429 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:20:08,430 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:20:08,430 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:20:08,467 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:20:08,470 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:20:08,987 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:20:09,282 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:20:32,347 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:20:32,642 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:20:32,645 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:20:32,646 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:20:32,646 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:20:32,681 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:20:32,684 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:20:33,032 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:20:33,180 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:21:04,310 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 14:21:12,011 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:21:12,269 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:21:12,272 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:21:12,273 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:21:12,273 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:21:12,306 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:21:12,310 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:21:12,698 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:21:12,917 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:21:22,525 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 14:21:22,526 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-03 14:21:47,622 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 14:21:59,609 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:21:59,870 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:21:59,873 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:21:59,874 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:21:59,874 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:21:59,905 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:21:59,909 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:22:00,311 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:22:00,521 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:22:22,049 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 14:22:22,054 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-03 14:43:43,418 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:43:43,722 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:43:43,726 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:43:43,726 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:43:43,726 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:43:43,763 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:43:43,767 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:43:44,390 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:43:44,830 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:46:38,131 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:46:38,595 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:46:38,599 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:46:38,600 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:46:38,600 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:46:38,637 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:46:38,641 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:46:39,232 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:46:40,272 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:46:58,837 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 14:47:00,136 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 14:47:00,138 - app.core.camera_worker - INFO - Camera 1 started at 640x480 @ 30fps
+2026-10-03 14:47:23,072 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 14:47:23,173 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 14:47:23,174 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-03 14:47:25,055 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 14:47:26,336 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 14:47:26,336 - app.core.camera_worker - INFO - Camera 1 started at 640x480 @ 30fps
+2026-10-03 14:47:27,472 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 14:47:28,294 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 14:47:28,295 - app.core.camera_worker - INFO - Camera 1 started at 640x480 @ 30fps
+2026-10-03 14:47:43,231 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 14:48:32,688 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:48:33,023 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:48:33,027 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:48:33,028 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:48:33,028 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:48:33,072 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:48:33,076 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:48:33,657 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:48:33,976 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:52:56,535 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:52:56,959 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:52:56,962 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:52:56,963 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:52:56,963 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:52:56,998 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:52:57,002 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:52:57,664 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:52:58,100 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 14:53:33,600 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 14:53:33,896 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 14:53:33,900 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 14:53:33,901 - matplotlib - DEBUG - interactive is False
+2026-10-03 14:53:33,902 - matplotlib - DEBUG - platform is darwin
+2026-10-03 14:53:33,940 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 14:53:33,943 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 14:53:34,385 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 14:53:34,742 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:00:39,817 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:00:40,075 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:00:40,078 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:00:40,079 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:00:40,079 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:00:40,116 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:00:40,119 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:00:40,509 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:00:41,817 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:00:42,024 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:00:42,447 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:01:08,857 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:01:09,195 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:01:09,198 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:01:09,199 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:01:09,199 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:01:09,236 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:01:09,239 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:01:09,722 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:01:09,979 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:01:11,377 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:06:17,707 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:06:18,157 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:06:18,160 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:06:18,161 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:06:18,161 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:06:18,194 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:06:18,198 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:06:18,746 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:06:19,100 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:07:58,738 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:07:59,202 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:07:59,206 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:07:59,207 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:07:59,207 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:07:59,250 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:07:59,254 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:07:59,862 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:08:00,237 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:08:13,638 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:08:13,991 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:08:13,994 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:08:13,995 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:08:13,995 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:08:14,033 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:08:14,036 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:08:14,473 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:08:14,667 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:08:16,028 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:10:11,217 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:10:11,561 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:10:11,564 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:10:11,564 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:10:11,564 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:10:11,598 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:10:11,602 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:10:12,102 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:10:12,749 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:10:28,949 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:10:29,212 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:10:29,215 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:10:29,215 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:10:29,215 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:10:29,249 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:10:29,252 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:10:29,678 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:10:29,850 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:10:31,247 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:14:32,219 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:14:32,563 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:14:32,566 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:14:32,567 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:14:32,567 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:14:32,605 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:14:32,609 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:14:33,189 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:14:33,510 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:14:34,915 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:15:18,371 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:15:18,635 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:15:18,638 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:15:18,639 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:15:18,639 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:15:18,677 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:15:18,681 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:15:19,074 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:15:20,448 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=1) to OpenCV index 0
+2026-10-03 15:15:20,695 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:15:21,176 - app.core.camera_devices - INFO - Mapped Qt device 'OBS Virtual Camera' (idx=0) to OpenCV index 1
+2026-10-03 15:15:40,899 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:15:41,177 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:15:41,181 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:15:41,181 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:15:41,181 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:15:41,219 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:15:41,223 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:15:41,746 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:15:42,041 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:15:43,446 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:27:42,097 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:27:42,438 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:27:42,442 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:27:42,442 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:27:42,442 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:27:42,473 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:27:42,477 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:27:43,166 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:27:44,611 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=1) to OpenCV index 0
+2026-10-03 15:27:44,872 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:27:45,344 - app.core.camera_devices - INFO - Mapped Qt device 'OBS Virtual Camera' (idx=0) to OpenCV index 1
+2026-10-03 15:27:55,857 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 15:27:55,859 - app.core.camera_worker - INFO - Camera 1 started at 640x480 @ 30fps
+2026-10-03 15:29:13,577 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 15:43:39,852 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:43:40,175 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:43:40,178 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:43:40,179 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:43:40,179 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:43:40,209 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:43:40,212 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:43:40,645 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:43:42,054 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:43:42,324 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:43:42,791 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=0) to OpenCV index 0
+2026-10-03 15:43:47,430 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 15:43:47,433 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-03 15:43:58,519 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 15:44:08,342 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 15:44:08,593 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 15:44:08,596 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 15:44:08,597 - matplotlib - DEBUG - interactive is False
+2026-10-03 15:44:08,597 - matplotlib - DEBUG - platform is darwin
+2026-10-03 15:44:08,630 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 15:44:08,633 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 15:44:09,035 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 15:44:10,416 - app.core.camera_devices - INFO - Mapped Qt device 'FaceTime HD Camera' (idx=1) to OpenCV index 0
+2026-10-03 15:44:10,645 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 15:44:11,105 - app.core.camera_devices - INFO - Mapped Qt device 'OBS Virtual Camera' (idx=0) to OpenCV index 1
+2026-10-03 16:08:11,682 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:11:43,576 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:11:43,576 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:11:44,029 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:11:44,032 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:11:44,033 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:11:44,033 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:11:44,067 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:11:44,071 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:11:44,577 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:12:08,314 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:12:08,314 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:12:08,666 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:12:08,670 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:12:08,672 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:12:08,672 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:12:08,707 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:12:08,710 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:12:09,126 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:12:09,293 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 16:12:09,369 - app.core.camera_service - ERROR - Device not found: 
+2026-10-03 16:13:41,764 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:13:41,764 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:13:42,232 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:13:42,235 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:13:42,236 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:13:42,236 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:13:42,274 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:13:42,279 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:13:42,811 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:13:43,101 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 16:15:14,733 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:15:14,733 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:15:15,079 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:15:15,082 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:15:15,083 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:15:15,083 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:15:15,112 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:15:15,115 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:15:15,573 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:15:15,859 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 16:19:44,024 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:19:44,025 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:19:44,336 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:19:44,339 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:19:44,339 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:19:44,340 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:19:44,369 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:19:44,372 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:19:44,672 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:19:44,916 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 16:46:06,093 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:46:06,094 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:46:06,728 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:46:06,731 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:46:06,731 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:46:06,731 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:46:06,766 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:46:06,769 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:46:07,223 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:46:07,492 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 16:46:27,798 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 16:46:27,800 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-03 16:46:33,633 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 16:49:28,840 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:49:28,841 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:49:29,406 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:49:29,409 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:49:29,410 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:49:29,410 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:49:29,443 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:49:29,447 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:49:29,954 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:49:30,235 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 16:49:44,697 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 16:49:44,698 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-03 16:49:56,455 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 16:50:07,352 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:50:07,352 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:50:07,809 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:50:07,811 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:50:07,812 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:50:07,812 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:50:07,841 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:50:07,844 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:50:08,284 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:50:08,634 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 16:51:51,011 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-03 16:51:51,014 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-03 16:51:54,843 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-03 16:52:23,682 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:52:23,682 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:52:24,304 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:52:24,307 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:52:24,309 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:52:24,309 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:52:24,348 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:52:24,352 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:52:25,020 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:52:25,391 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 16:58:01,314 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:58:01,315 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:58:01,788 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:58:01,791 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:58:01,792 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:58:01,792 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:58:01,824 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:58:01,827 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:58:02,276 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:58:02,291 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:58:38,159 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 16:58:38,160 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 16:58:38,548 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 16:58:38,551 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 16:58:38,552 - matplotlib - DEBUG - interactive is False
+2026-10-03 16:58:38,552 - matplotlib - DEBUG - platform is darwin
+2026-10-03 16:58:38,587 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 16:58:38,590 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 16:58:39,003 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:58:39,017 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 16:58:39,282 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 18:50:31,891 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 18:50:31,891 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 18:50:32,874 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 18:50:32,878 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 18:50:32,878 - matplotlib - DEBUG - interactive is False
+2026-10-03 18:50:32,879 - matplotlib - DEBUG - platform is darwin
+2026-10-03 18:50:32,914 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 18:50:32,918 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 18:50:33,456 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:50:33,491 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:50:33,960 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 18:51:17,396 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 18:51:17,396 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 18:51:17,997 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 18:51:18,000 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 18:51:18,000 - matplotlib - DEBUG - interactive is False
+2026-10-03 18:51:18,001 - matplotlib - DEBUG - platform is darwin
+2026-10-03 18:51:18,062 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 18:51:18,067 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 18:51:18,741 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:51:18,763 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:51:19,167 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 18:51:20,156 - app.core.inference_worker - INFO - Inference worker started
+2026-10-03 18:51:20,213 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,233 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,330 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,395 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,428 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,454 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,577 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,596 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,704 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:20,769 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,329 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,344 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,429 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,478 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,527 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,618 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,670 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,737 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,771 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,795 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:21,896 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:22,208 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:22,430 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:22,710 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:22,907 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:23,022 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:23,067 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:23,156 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:23,228 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 18:51:23,228 - app.core.inference_worker - INFO - Inference worker stopped
+2026-10-03 18:56:36,709 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 18:56:37,175 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 18:56:37,178 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 18:56:37,179 - matplotlib - DEBUG - interactive is False
+2026-10-03 18:56:37,179 - matplotlib - DEBUG - platform is darwin
+2026-10-03 18:56:37,228 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 18:56:37,234 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 18:56:37,895 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:56:37,927 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:56:37,929 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 18:56:38,833 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 18:57:27,196 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 18:57:27,682 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 18:57:27,687 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 18:57:27,688 - matplotlib - DEBUG - interactive is False
+2026-10-03 18:57:27,688 - matplotlib - DEBUG - platform is darwin
+2026-10-03 18:57:27,730 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 18:57:27,734 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 18:57:28,418 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:57:28,438 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:57:28,439 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 18:57:29,108 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 18:58:23,915 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 18:58:24,229 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 18:58:24,232 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 18:58:24,233 - matplotlib - DEBUG - interactive is False
+2026-10-03 18:58:24,233 - matplotlib - DEBUG - platform is darwin
+2026-10-03 18:58:24,264 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 18:58:24,268 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 18:58:24,750 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:58:24,766 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:58:24,766 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 18:58:25,325 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 18:59:55,312 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 18:59:55,965 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 18:59:55,973 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 18:59:55,975 - matplotlib - DEBUG - interactive is False
+2026-10-03 18:59:55,975 - matplotlib - DEBUG - platform is darwin
+2026-10-03 18:59:56,026 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 18:59:56,031 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 18:59:56,991 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:59:57,029 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 18:59:57,031 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 18:59:57,988 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:00:13,944 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:00:14,366 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:00:14,369 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:00:14,370 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:00:14,370 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:00:14,409 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:00:14,413 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:00:15,126 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:00:15,151 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:00:15,152 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:00:15,840 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:02:00,074 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:02:00,605 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:02:00,609 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:02:00,611 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:02:00,611 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:02:00,647 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:02:00,651 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:02:01,856 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:02:01,883 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:02:01,886 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:02:03,759 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:02:35,885 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:02:36,298 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:02:36,303 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:02:36,304 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:02:36,304 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:02:36,342 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:02:36,346 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:02:36,916 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:02:36,945 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:02:36,945 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:02:37,687 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:03:58,939 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:03:59,326 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:03:59,330 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:03:59,331 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:03:59,332 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:03:59,377 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:03:59,382 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:04:00,010 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:04:00,048 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:04:00,049 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:04:00,693 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:06:00,118 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:06:00,581 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:06:00,584 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:06:00,585 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:06:00,585 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:06:00,624 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:06:00,628 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:06:01,195 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:06:01,220 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:06:01,221 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:06:01,811 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:06:47,502 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:06:47,959 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:06:47,962 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:06:47,963 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:06:47,963 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:06:48,012 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:06:48,017 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:06:48,704 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:06:48,719 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:06:48,719 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:06:49,419 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:08:13,905 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:08:14,453 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:08:14,456 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:08:14,457 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:08:14,457 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:08:14,505 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:08:14,509 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:08:15,198 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:08:15,217 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:08:15,219 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:08:15,865 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:09:52,249 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:09:52,634 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:09:52,637 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:09:52,638 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:09:52,638 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:09:52,676 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:09:52,680 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:09:53,253 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:09:53,284 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:09:53,285 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:09:53,826 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:13:40,094 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:13:40,594 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:13:40,598 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:13:40,599 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:13:40,599 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:13:40,634 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:13:40,638 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:13:41,275 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:13:41,293 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:13:41,295 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:13:42,051 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:14:25,529 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:14:25,900 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:14:25,904 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:14:25,905 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:14:25,905 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:14:25,976 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:14:25,981 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:14:26,572 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:14:26,591 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:14:26,591 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:14:27,101 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:16:38,291 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:16:38,621 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:16:38,625 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:16:38,626 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:16:38,626 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:16:38,660 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:16:38,664 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:16:39,200 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:16:39,229 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:16:39,229 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:16:39,628 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:18:07,723 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:18:08,059 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:18:08,062 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:18:08,063 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:18:08,063 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:18:08,094 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:18:08,097 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:18:08,695 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:18:08,712 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:18:08,712 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:18:09,265 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:21:32,788 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:21:33,204 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:21:33,208 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:21:33,209 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:21:33,209 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:21:33,252 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:21:33,257 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:21:33,944 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:21:33,963 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:21:33,964 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:21:35,667 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:22:14,288 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:22:14,689 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:22:14,692 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:22:14,693 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:22:14,694 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:22:14,728 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:22:14,734 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:22:15,368 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:22:15,382 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:22:15,384 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:22:15,818 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:24:14,764 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:24:15,110 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:24:15,114 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:24:15,115 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:24:15,115 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:24:15,148 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:24:15,152 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:24:15,709 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:24:15,725 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:24:15,725 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:24:16,362 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:25:32,237 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:25:32,637 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:25:32,640 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:25:32,641 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:25:32,641 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:25:32,684 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:25:32,687 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:25:34,056 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:25:34,078 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:25:34,079 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:25:35,933 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:28:12,434 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:28:12,883 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:28:12,886 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:28:12,887 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:28:12,887 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:28:12,927 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:28:12,931 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:28:13,676 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:28:13,698 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:28:13,699 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:28:14,577 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:28:30,510 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:28:30,810 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:28:30,813 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:28:30,814 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:28:30,814 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:28:30,844 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:28:30,847 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:28:31,301 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:28:31,316 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:28:31,317 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:28:31,657 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:30:30,422 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:30:30,708 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:30:30,711 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:30:30,712 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:30:30,712 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:30:30,743 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:30:30,746 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:30:31,243 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:30:31,257 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:30:31,257 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:30:31,788 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:30:57,137 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:30:57,437 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:30:57,440 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:30:57,440 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:30:57,440 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:30:57,471 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:30:57,475 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:30:57,949 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:30:57,966 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:30:57,966 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:30:58,385 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:36:58,538 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:36:58,971 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:36:58,975 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:36:58,976 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:36:58,976 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:36:59,008 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:36:59,012 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:36:59,550 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:36:59,563 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:36:59,564 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:37:00,320 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:39:46,794 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:39:47,164 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:39:47,168 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:39:47,168 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:39:47,168 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:39:47,200 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:39:47,204 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:39:47,759 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:39:47,779 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:39:47,780 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:39:48,438 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:40:50,769 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:40:51,116 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:40:51,119 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:40:51,120 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:40:51,120 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:40:51,152 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:40:51,156 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:40:51,799 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:40:51,814 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:40:51,815 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:40:52,563 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:41:41,771 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:41:41,771 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:41:42,318 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:41:42,322 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:41:42,323 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:41:42,323 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:41:42,361 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:41:42,365 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:41:42,903 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:41:42,921 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:41:43,229 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:41:50,974 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-03 19:41:50,974 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-03 19:41:51,390 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-03 19:41:51,394 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-03 19:41:51,394 - matplotlib - DEBUG - interactive is False
+2026-10-03 19:41:51,394 - matplotlib - DEBUG - platform is darwin
+2026-10-03 19:41:51,426 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-03 19:41:51,429 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-03 19:41:52,188 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:41:52,204 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-03 19:41:52,583 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-03 19:41:53,633 - app.core.inference_worker - INFO - Inference worker started
+2026-10-03 19:41:53,734 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:53,758 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:53,793 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:53,863 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:53,895 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:53,925 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,050 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,105 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,159 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,227 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,779 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,795 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,878 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,924 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:54,961 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,057 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,116 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,157 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,277 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,299 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,395 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,458 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,551 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-03 19:41:55,587 - app.core.inference_worker - INFO - Inference worker stopped
+2026-10-04 09:47:22,858 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-04 09:47:22,858 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-04 09:47:24,015 - matplotlib - DEBUG - matplotlib data path: /Users/nico/VS Code Projects/Python_ASL/sign_app/venv/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-04 09:47:24,018 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-04 09:47:24,019 - matplotlib - DEBUG - interactive is False
+2026-10-04 09:47:24,019 - matplotlib - DEBUG - platform is darwin
+2026-10-04 09:47:24,074 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-04 09:47:24,079 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-04 09:47:25,046 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-04 09:47:25,068 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-04 09:47:25,516 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-04 09:47:30,377 - app.core.inference_worker - INFO - Inference worker started
+2026-10-04 09:47:30,963 - app.core.camera_worker - INFO - Opened camera with backend 1200
+2026-10-04 09:47:30,964 - app.core.camera_worker - INFO - Camera 0 started at 640x480 @ 30fps
+2026-10-04 09:47:31,178 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,218 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,282 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,309 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,337 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,360 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,378 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,411 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,435 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,467 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,496 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,522 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,567 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,595 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,647 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,674 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,696 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,729 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,765 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,815 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,833 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,877 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,900 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,958 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:31,999 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,027 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,047 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,098 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,119 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,150 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,232 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,290 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,312 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,331 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,361 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,423 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,455 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,480 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,502 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,533 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,572 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,596 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,628 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,662 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,709 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,739 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,779 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,824 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,845 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,879 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,928 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,945 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:32,978 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,029 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,091 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,106 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,145 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,178 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,223 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,246 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,281 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,311 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,388 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,402 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,429 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,481 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,512 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,551 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,579 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,621 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,658 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,691 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,723 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,758 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,809 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,829 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,859 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,892 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,929 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,959 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:33,995 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,028 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,092 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,112 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,144 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,179 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,214 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,253 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,296 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,328 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,362 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,396 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,429 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,463 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,523 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,538 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,600 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,617 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,641 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,679 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,712 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,746 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,791 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,813 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,850 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,892 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,924 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:34,965 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,002 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,045 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,097 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,113 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,146 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,180 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,224 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,282 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,299 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,335 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,367 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,406 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,441 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,474 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,497 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,540 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,574 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,611 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,649 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,683 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,726 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,765 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,785 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,812 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,843 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,876 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,923 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,958 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:35,995 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,026 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,058 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,092 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,130 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,180 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,196 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,230 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,278 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,312 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,353 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,377 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,410 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,444 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,483 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,510 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,558 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,581 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,623 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,658 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,692 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,733 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,757 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,790 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,826 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,874 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,915 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,943 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:36,976 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,010 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,046 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,078 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,123 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,160 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,190 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,212 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,245 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,309 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,345 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,376 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,415 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,433 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,479 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,496 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,527 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,569 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,598 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,646 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,675 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,713 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,741 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,792 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,827 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,858 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,895 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,925 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,961 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:37,999 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,057 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,093 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,126 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,150 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,176 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,207 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,244 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,274 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,326 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,347 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,389 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,413 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,463 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,493 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,525 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,556 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,599 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,639 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,675 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,695 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,739 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,763 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,813 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,839 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,872 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,925 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,942 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:38,993 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,031 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,058 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,092 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,143 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,165 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,227 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,247 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,277 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,306 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,345 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,375 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,413 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,463 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,490 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,543 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,562 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,593 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,623 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,665 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,696 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,742 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,766 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,796 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,843 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,876 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,909 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,942 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:39,975 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:40,012 - app.core.inference_worker - ERROR - Inference error: name 'loop_start' is not defined
+2026-10-04 09:47:40,077 - app.core.camera_worker - INFO - Camera worker stopped
+2026-10-04 09:47:40,079 - app.core.inference_worker - INFO - Inference worker stopped
+2026-10-04 10:01:58,538 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-04 10:01:58,539 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-04 10:02:01,319 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-04 10:02:01,323 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-04 10:02:01,323 - matplotlib - DEBUG - interactive is False
+2026-10-04 10:02:01,324 - matplotlib - DEBUG - platform is darwin
+2026-10-04 10:02:01,360 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-04 10:02:01,363 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-04 10:02:10,505 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-04 10:02:10,506 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-04 10:02:13,120 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-04 10:02:13,124 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-04 10:02:13,124 - matplotlib - DEBUG - interactive is False
+2026-10-04 10:02:13,124 - matplotlib - DEBUG - platform is darwin
+2026-10-04 10:02:13,161 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-04 10:02:13,164 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-04 10:02:13,596 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-04 10:02:13,618 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-04 10:02:15,592 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-04 10:18:39,680 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-04 10:18:39,681 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-04 10:18:42,650 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-04 10:18:42,654 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-04 10:18:42,654 - matplotlib - DEBUG - interactive is False
+2026-10-04 10:18:42,654 - matplotlib - DEBUG - platform is darwin
+2026-10-04 10:18:42,697 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-04 10:18:42,701 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-04 10:18:51,534 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-04 10:18:51,535 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-04 10:18:54,361 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-04 10:18:54,365 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-04 10:18:54,365 - matplotlib - DEBUG - interactive is False
+2026-10-04 10:18:54,365 - matplotlib - DEBUG - platform is darwin
+2026-10-04 10:18:54,402 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-04 10:18:54,406 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-04 10:18:54,858 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-04 10:18:54,878 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-04 10:18:56,644 - app.content.loader - INFO - Synced content pack asl to database: 45 signs, 9 modules
+2026-10-04 10:23:11,292 - app.content.loader - INFO - Loaded content pack: American Sign Language (asl)
+2026-10-04 10:23:11,292 - app.core.camera_service - WARNING - QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled
+2026-10-04 10:23:13,903 - matplotlib - DEBUG - matplotlib data path: /Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/matplotlib/mpl-data
+2026-10-04 10:23:13,907 - matplotlib - DEBUG - CONFIGDIR=/Users/nico/.matplotlib
+2026-10-04 10:23:13,907 - matplotlib - DEBUG - interactive is False
+2026-10-04 10:23:13,907 - matplotlib - DEBUG - platform is darwin
+2026-10-04 10:23:13,941 - matplotlib - DEBUG - CACHEDIR=/Users/nico/.matplotlib
+2026-10-04 10:23:13,945 - matplotlib.font_manager - DEBUG - Using fontManager instance from /Users/nico/.matplotlib/fontlist-v3.11.0.json
+2026-10-04 10:23:14,311 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API
+2026-10-04 10:23:14,330 - app.core.hand_tracker - INFO - HandTracker initialized with MediaPipe Tasks API

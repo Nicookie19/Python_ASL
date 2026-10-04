@@ -1,0 +1,13 @@
+{
+  "id": "asl",
+  "name": "American Sign Language",
+  "version": "1.0.0",
+  "description": "ASL fingerspelling, numbers, greetings, and everyday phrases.",
+  "author": "Sign Language Learning App",
+  "supported_categories": [
+    "fingerspelling",
+    "numbers",
+    "greetings",
+    "phrases"
+  ]
+}

@@ -1,0 +1,137 @@
+[
+  {
+    "id": "asl_fingerspelling_1",
+    "name": "Fingerspelling: A\u2013E",
+    "category": "fingerspelling",
+    "difficulty": "easy",
+    "sign_ids": [
+      "asl_a",
+      "asl_b",
+      "asl_c",
+      "asl_d",
+      "asl_e"
+    ],
+    "description": "Learn the first five letters of the ASL alphabet.",
+    "estimated_time_minutes": 10
+  },
+  {
+    "id": "asl_fingerspelling_2",
+    "name": "Fingerspelling: F\u2013J",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "sign_ids": [
+      "asl_f",
+      "asl_g",
+      "asl_h",
+      "asl_i",
+      "asl_j"
+    ],
+    "description": "Letters F through J. Note: J is a motion sign (reference only).",
+    "estimated_time_minutes": 12
+  },
+  {
+    "id": "asl_fingerspelling_3",
+    "name": "Fingerspelling: K\u2013O",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "sign_ids": [
+      "asl_k",
+      "asl_l",
+      "asl_m",
+      "asl_n",
+      "asl_o"
+    ],
+    "description": "Letters K through O. M and N are similar - pay attention to thumb position.",
+    "estimated_time_minutes": 12
+  },
+  {
+    "id": "asl_fingerspelling_4",
+    "name": "Fingerspelling: P\u2013T",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "sign_ids": [
+      "asl_p",
+      "asl_q",
+      "asl_r",
+      "asl_s",
+      "asl_t"
+    ],
+    "description": "Letters P through T. P and Q are similar orientations.",
+    "estimated_time_minutes": 12
+  },
+  {
+    "id": "asl_fingerspelling_5",
+    "name": "Fingerspelling: U\u2013Z",
+    "category": "fingerspelling",
+    "difficulty": "medium",
+    "sign_ids": [
+      "asl_u",
+      "asl_v",
+      "asl_w",
+      "asl_x",
+      "asl_y",
+      "asl_z"
+    ],
+    "description": "Letters U through Z. Note: Z is a motion sign (reference only).",
+    "estimated_time_minutes": 12
+  },
+  {
+    "id": "asl_numbers_1",
+    "name": "Numbers: 0\u20135",
+    "category": "numbers",
+    "difficulty": "easy",
+    "sign_ids": [
+      "asl_0",
+      "asl_1",
+      "asl_2",
+      "asl_3",
+      "asl_4",
+      "asl_5"
+    ],
+    "description": "Learn to sign numbers zero through five.",
+    "estimated_time_minutes": 8
+  },
+  {
+    "id": "asl_numbers_2",
+    "name": "Numbers: 6\u20139",
+    "category": "numbers",
+    "difficulty": "medium",
+    "sign_ids": [
+      "asl_6",
+      "asl_7",
+      "asl_8",
+      "asl_9"
+    ],
+    "description": "Numbers six through nine use thumb contact patterns.",
+    "estimated_time_minutes": 10
+  },
+  {
+    "id": "asl_greetings",
+    "name": "Greetings & Politeness",
+    "category": "greetings",
+    "difficulty": "easy",
+    "sign_ids": [
+      "asl_hello",
+      "asl_goodbye",
+      "asl_thank_you",
+      "asl_please",
+      "asl_sorry"
+    ],
+    "description": "Common greetings and polite phrases. These are motion signs - watch the reference animation.",
+    "estimated_time_minutes": 10
+  },
+  {
+    "id": "asl_phrases",
+    "name": "Everyday Phrases",
+    "category": "phrases",
+    "difficulty": "easy",
+    "sign_ids": [
+      "asl_hospital",
+      "asl_help",
+      "asl_yes",
+      "asl_no"
+    ],
+    "description": "Useful everyday signs. Motion signs - watch and learn.",
+    "estimated_time_minutes": 8
+  }
+]

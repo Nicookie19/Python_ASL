@@ -16,7 +16,14 @@ from collections import OrderedDict
 import cv2
 import numpy as np
 from PySide6.QtCore import QObject, Signal, Slot, QThread, QTimer, Qt, QMutex, QWaitCondition
-from PySide6.QtMultimedia import QMediaDevices, QCamera, QMediaCaptureSession, QVideoSink
+from PySide6.QtGui import QImage
+from PySide6.QtMultimedia import (
+    QMediaDevices,
+    QCamera,
+    QMediaCaptureSession,
+    QVideoSink,
+    QVideoFrame,
+)
 from PySide6.QtMultimediaWidgets import QVideoWidget
 
 from app.core.camera_devices import CameraDevice, discover_camera_devices, preferred_camera, is_static_frame_sequence
@@ -61,14 +68,17 @@ class CameraCaptureWorker(QThread):
         self._camera: Optional[QCamera] = None
         self._capture_session: Optional[QMediaCaptureSession] = None
         self._video_sink: Optional[QVideoSink] = None
-        _mutex = QMutex()
-        _pause_condition = QWaitCondition()
-        _paused = False
-        
+        self._device = None
+        self._mutex = QMutex()
+        self._pause_condition = QWaitCondition()
+        self._paused = False
+
         self._frame_count = 0
-        _recent_frames: List[np.ndarray] = []
-        _static_warning_sent = False
-        _started_at = 0.0
+        self._recent_frames: List[np.ndarray] = []
+        self._recent_arrivals: List[float] = []
+        self._delivered_resolution: tuple[int, int] = (0, 0)
+        self._static_warning_sent = False
+        self._started_at = 0.0
         
     def run(self) -> None:
         """Main capture loop using Qt Multimedia."""
@@ -76,6 +86,7 @@ class CameraCaptureWorker(QThread):
         self._started_at = time.monotonic()
         
         # Find the Qt camera device by ID
+        self._device = None
         qt_device = None
         for device in QMediaDevices.videoInputs():
             if bytes(device.id()).decode("utf-8", errors="replace") == self.config.device_id:
@@ -88,6 +99,7 @@ class CameraCaptureWorker(QThread):
             return
         
         # Create camera and capture session
+        self._device = qt_device
         self._camera = QCamera(qt_device)
         self._capture_session = QMediaCaptureSession()
         self._capture_session.setCamera(self._camera)
@@ -95,10 +107,16 @@ class CameraCaptureWorker(QThread):
         self._video_sink = QVideoSink()
         self._capture_session.setVideoSink(self._video_sink)
         
-        # Connect video sink frame ready signal
-        self._video_sink.videoFrameChanged.connect(self._on_video_frame)
+        # The QThread object itself lives in the GUI thread, so AutoConnection
+        # would queue this slot there.  Force conversion to run beside the
+        # QVideoSink in the capture thread; QImage/OpenCV conversion is one of
+        # the most expensive per-frame operations.
+        self._video_sink.videoFrameChanged.connect(
+            self._on_video_frame, Qt.DirectConnection
+        )
         
         # Start camera
+        self._configure_format()
         self._camera.start()
         
         if not self._camera.isActive():
@@ -112,90 +130,139 @@ class CameraCaptureWorker(QThread):
         # Event loop for the thread
         self.exec()
         
+    def _configure_format(self) -> None:
+        """Ask the camera for a modest capture mode.
+
+        Without this the camera defaults to its highest mode (commonly 1080p on
+        a built-in webcam), which costs conversion time and memory for no
+        benefit: hand tracking works on a downscaled frame anyway.
+        """
+        if self._camera is None or self._device is None:
+            return
+
+        wanted_w, wanted_h = self.config.resolution
+        wanted_fps = max(1, int(self.config.target_fps))
+
+        # Prefer the requested dimensions and a format that can deliver the
+        # requested rate.  If an exact/smaller mode is unavailable, still pick
+        # the nearest format instead of silently falling back to a 1080p
+        # default.
+        candidates = []
+        for fmt in self._device.videoFormats():
+            size = fmt.resolution()
+            width, height = size.width(), size.height()
+            resolution_distance = abs(width - wanted_w) + abs(height - wanted_h)
+            oversized = 0 if width <= wanted_w and height <= wanted_h else 10_000
+            if fmt.minFrameRate() <= wanted_fps <= fmt.maxFrameRate():
+                fps_distance = 0.0
+            else:
+                fps_distance = min(
+                    abs(fmt.minFrameRate() - wanted_fps),
+                    abs(fmt.maxFrameRate() - wanted_fps),
+                )
+            candidates.append((oversized + resolution_distance, fps_distance, fmt))
+        if not candidates:
+            return
+        candidates.sort(key=lambda item: (item[0], item[1]))
+        best = candidates[0][2]
+
+        self._camera.setCameraFormat(best)
+        size = best.resolution()
+        logger.info(
+            "Requested camera format %dx%d @%dfps",
+            size.width(), size.height(), best.maxFrameRate(),
+        )
+
     @Slot()
     def _on_video_frame(self, frame) -> None:
         """Handle new video frame from Qt Multimedia."""
         if not self._running or self._paused:
             return
-            
+
+        # Record the arrival time before any conversion so capture FPS reflects
+        # what the camera actually delivers, not how fast we can convert.
+        arrived = time.monotonic()
+        self._recent_arrivals.append(arrived)
+        if len(self._recent_arrivals) > 60:
+            self._recent_arrivals.pop(0)
+
         # Convert QVideoFrame to numpy array
         np_frame = self._video_frame_to_numpy(frame)
         if np_frame is None:
             return
-            
+        self._delivered_resolution = (np_frame.shape[1], np_frame.shape[0])
+
         # Mirror if needed
         if self.config.mirror:
             np_frame = cv2.flip(np_frame, 1)
-            
+
         # Static feed detection
         self._check_static_feed(np_frame)
-        
+
         # Emit frame
         self._frame_count += 1
         camera_frame = CameraFrame(
             frame=np_frame,
-            timestamp_ms=time.monotonic() * 1000,
+            # Wall-clock, not monotonic: latency is compared against time.time()
+            # downstream and the two clocks have different epochs.
+            timestamp_ms=time.time() * 1000,
             frame_number=self._frame_count,
-            camera_device_id=self.config.device_id
+            camera_device_id=self.config.device_id,
         )
         self.frame_ready.emit(camera_frame)
+
+    def capture_fps(self) -> float:
+        """Measured capture rate, computed in the capture thread.
+
+        Uses a one-second trailing window rather than a fixed arrival count so
+        bursty delivery cannot inflate the reading.
+        """
+        if len(self._recent_arrivals) < 2:
+            return 0.0
+        now = self._recent_arrivals[-1]
+        window = [t for t in self._recent_arrivals if t > now - 1.0]
+        if len(window) < 2:
+            return 0.0
+        span = window[-1] - window[0]
+        if span <= 0:
+            return 0.0
+        return (len(window) - 1) / span
+
+    def measured_resolution(self) -> tuple[int, int]:
+        """Resolution the camera is actually delivering."""
+        return self._delivered_resolution
         
     def _video_frame_to_numpy(self, frame) -> Optional[np.ndarray]:
-        """Convert QVideoFrame to numpy BGR array."""
+        """Convert a QVideoFrame to a contiguous BGR numpy array.
+
+        Goes via QImage rather than reading the raw plane directly: the pixel
+        format and row stride vary by camera, backend and platform (YUV420P,
+        NV12, BGRA, padded strides), and getting them wrong silently yields a
+        garbled or green-tinted image.
+        """
         if not frame.isValid():
             return None
-            
-        # Map frame to memory
-        frame.map(QVideoFrame.MapMode.ReadOnly)
-        try:
-            # Get image format
-            fmt = frame.pixelFormat()
-            width = frame.width()
-            height = frame.height()
-            bytes_per_line = frame.bytesPerLine()
-            
-            # Get raw data
-            bits = frame.bits()
-            if bits is None:
-                return None
-                
-            # Convert based on format
-            # Common formats: Format_YUV420P, Format_NV12, Format_RGB24, Format_BGR24, Format_RGBA8888
-            if fmt == QVideoFrame.Format.Format_RGB24:
-                arr = np.frombuffer(bits, dtype=np.uint8).reshape((height, bytes_per_line // 3, 3))
-                arr = arr[:, :width, :]
-                return cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
-            elif fmt == QVideoFrame.Format.Format_BGR24:
-                arr = np.frombuffer(bits, dtype=np.uint8).reshape((height, bytes_per_line // 3, 3))
-                arr = arr[:, :width, :]
-                return arr.copy()
-            elif fmt == QVideoFrame.Format.Format_RGBA8888 or fmt == QVideoFrame.Format.Format_ARGB32:
-                arr = np.frombuffer(bits, dtype=np.uint8).reshape((height, bytes_per_line // 4, 4))
-                arr = arr[:, :width, :3]
-                return cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
-            elif fmt == QVideoFrame.Format.Format_YUV420P or fmt == QVideoFrame.Format.Format_NV12:
-                # YUV conversion needed
-                y_size = width * height
-                uv_size = y_size // 4
-                y_data = np.frombuffer(bits[:y_size], dtype=np.uint8).reshape((height, width))
-                uv_data = np.frombuffer(bits[y_size:y_size+uv_size*2], dtype=np.uint8).reshape((height//2, width//2, 2))
-                # Simple YUV to BGR (approximate)
-                yuv = cv2.merge([y_data, 
-                                cv2.resize(uv_data[:,:,0], (width, height)),
-                                cv2.resize(uv_data[:,:,1], (width, height))])
-                return cv2.cvtColor(yuv, cv2.COLOR_YUV2BGR_I420)
-            else:
-                # Fallback: try to convert via QImage
-                image = frame.toImage()
-                if image.isNull():
-                    return None
-                image = image.convertToFormat(QImage.Format.Format_RGB888)
-                arr = np.frombuffer(image.bits().asarray(image.sizeInBytes()), dtype=np.uint8)
-                arr = arr.reshape((image.height(), image.width(), 3))
-                return cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
-        finally:
-            frame.unmap()
-            
+
+        image = frame.toImage()
+        if image.isNull():
+            return None
+
+        image = image.convertToFormat(QImage.Format.Format_RGB888)
+        width, height = image.width(), image.height()
+        if width <= 0 or height <= 0:
+            return None
+
+        stride = image.bytesPerLine()
+        raw = np.frombuffer(image.constBits(), dtype=np.uint8)
+        needed = stride * height
+        if raw.size < needed:
+            return None
+
+        # Drop per-row padding, then RGB -> BGR (this also makes a fresh array,
+        # so it is safe to keep after the QImage is released).
+        arr = raw[:needed].reshape(height, stride)[:, : width * 3]
+        return cv2.cvtColor(arr.reshape(height, width, 3), cv2.COLOR_RGB2BGR)
+
     def _check_static_feed(self, frame: np.ndarray) -> None:
         """Detect if camera is sending static frames (virtual camera idle)."""
         self._recent_frames.append(cv2.resize(frame, (160, 90)))
@@ -279,12 +346,18 @@ class CameraService(QObject):
         # Static feed detection
         self._static_feed_timer: Optional[QTimer] = None
         
-        # Hot-plug detection
+        # Hot-plug detection. videoInputsChanged is a static signal; in PySide6 it is
+        # only connectable through an instance, not off the class.
+        self._media_devices = QMediaDevices()
         try:
-            QMediaDevices.videoInputsChanged.connect(self._on_devices_changed)
-        except AttributeError:
-            # Signal may not be available in this Qt version
-            logger.warning("QMediaDevices.videoInputsChanged signal not available, hot-plug detection disabled")
+            self._media_devices.videoInputsChanged.connect(self._on_devices_changed)
+            self._hotplug_connected = True
+        except (AttributeError, TypeError) as exc:
+            self._hotplug_connected = False
+            logger.warning(
+                "Could not connect videoInputsChanged (%s); hot-plug detection disabled",
+                exc,
+            )
         
         # Initial device discovery
         self._refresh_devices()
@@ -307,10 +380,11 @@ class CameraService(QObject):
         if self._worker:
             self._worker.stop()
             self._worker = None
-        try:
-            QMediaDevices.videoInputsChanged.disconnect(self._on_devices_changed)
-        except (AttributeError, TypeError):
-            pass
+        if getattr(self, "_hotplug_connected", False):
+            try:
+                self._media_devices.videoInputsChanged.disconnect(self._on_devices_changed)
+            except (AttributeError, TypeError, RuntimeError):
+                pass
         
     def _refresh_devices(self):
         """Refresh device list from Qt Multimedia."""
@@ -327,7 +401,11 @@ class CameraService(QObject):
             pref = preferred_camera(self._devices)
             if pref:
                 self._active_device_id = pref.device_id
-                
+
+        # Keep the capture config in sync with the active device. Without this
+        # the worker can be started with an empty device_id.
+        self._config.device_id = self._active_device_id
+
         self.device_list_changed.emit(self._devices)
         
     @Slot()
@@ -400,6 +478,12 @@ class CameraService(QObject):
     
     def _start_worker(self):
         """Start the capture worker with current config."""
+        # The worker always opens whatever device is currently active.
+        self._config.device_id = self._active_device_id
+        if not self._config.device_id:
+            logger.warning("No camera device selected; not starting capture")
+            return
+
         if self._worker:
             self._worker.frame_ready.disconnect()
             self._worker.error_occurred.disconnect()
@@ -489,6 +573,21 @@ class CameraService(QObject):
             
     def get_config(self) -> CameraConfig:
         return self._config
+
+    def capture_fps(self) -> float:
+        """Measured capture rate of the active device (0 if not running)."""
+        if self._worker is None:
+            return 0.0
+        return self._worker.capture_fps()
+
+    def measured_resolution(self) -> tuple[int, int]:
+        """Resolution actually delivered by the active device."""
+        if self._worker is None:
+            return (0, 0)
+        return self._worker.measured_resolution()
+
+    def is_running(self) -> bool:
+        return self._worker is not None and self._worker.isRunning()
     
     def save_config(self, settings_repo):
         """Persist camera config to settings."""

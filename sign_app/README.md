@@ -37,8 +37,8 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the app
-python main.py
+# Run the app (QML "Sign Spark" UI)
+python app/qml/main.py
 ```
 
 ### First Run
@@ -52,7 +52,6 @@ python main.py
 
 ```
 sign_app/
-├── main.py                 # Entry point
 ├── requirements.txt        # Python dependencies
 ├── README.md              # This file
 ├── app/
@@ -63,11 +62,12 @@ sign_app/
 │   │   ├── recognizer.py
 │   │   ├── smoothing.py
 │   │   └── pipeline.py
-│   ├── ui/                # PySide6 GUI
-│   │   ├── theme.py       # Design tokens & QSS
-│   │   ├── main_window.py
-│   │   ├── screens/       # Welcome, Home, Lesson, Quiz, Dictionary, Progress, Instructor, Settings
-│   │   └── widgets/       # CameraView, DwellButton, ConfidenceMeter, etc.
+│   ├── qml/               # QML "Sign Spark" GUI
+│   │   ├── main.py        # QML entry point
+│   │   ├── main.qml       # Root QML component
+│   │   ├── theme/         # Theme system
+│   │   ├── components/    # Reusable QML components
+│   │   └── screens/       # HomeScreen, LessonScreen
 │   ├── data/              # SQLite database
 │   │   └── db.py
 │   └── content/           # Content pack loader
@@ -281,6 +281,12 @@ python tools/collect_data.py
 python tools/train_model.py
 ```
 
+### QML UI not loading
+```bash
+# Run with verbose output to see QML errors
+python app/qml/main.py
+```
+
 ## Development
 
 ### Run Tests
@@ -291,21 +297,21 @@ pytest tests/ -v
 ### Code Style
 ```bash
 # Format
-black app/ tools/ main.py
+black app/ tools/
 
 # Lint
-ruff check app/ tools/ main.py
+ruff check app/ tools/
 
 # Type check
-mypy app/ tools/ main.py
+mypy app/ tools/
 ```
 
 ### Packaging (PyInstaller)
 ```bash
 pyinstaller --onefile --windowed --name "SignLanguageApp" \
   --add-data "content_packs:content_packs" \
-  --add-data "app/ui/theme.py:app/ui" \
-  main.py
+  --add-data "app/qml:app/qml" \
+  app/qml/main.py
 ```
 
 ## Decisions & Trade-offs

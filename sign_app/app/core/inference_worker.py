@@ -59,11 +59,14 @@ class InferenceWorker(QThread):
         self.max_hands = max_hands
         self.model_complexity = model_complexity
         
-        # Hand tracker
+        # A lower detection threshold reacquires a hand quickly.  Tracking and
+        # presence stay at a balanced value so weak detections do not make the
+        # skeleton jump between unrelated shapes.
         self._hand_tracker = HandTracker(
             max_hands=max_hands,
-            min_detection_confidence=0.7,
+            min_detection_confidence=0.4,
             min_tracking_confidence=0.5,
+            min_presence_confidence=0.5,
             model_complexity=model_complexity
         )
         
@@ -94,6 +97,8 @@ class InferenceWorker(QThread):
         
         # Performance tracking
         self._frame_count = 0
+        self._dropped_frames = 0
+        self._consecutive_errors = 0
         self._last_fps_time = time.time()
         self._inference_times: List[float] = []
         
@@ -168,16 +173,25 @@ class InferenceWorker(QThread):
     def submit_frame(self, frame: np.ndarray, frame_number: int, timestamp_ms: float,
                      target_sign_id: Optional[str] = None,
                      target_landmarks: Optional[np.ndarray] = None) -> None:
-        """Submit a frame for inference (only keeps latest)."""
+        """Submit a frame for inference, replacing any stale pending frame.
+
+        Frames emitted by CameraService are immutable after delivery, so they
+        can be safely shared read-only with inference.  Avoiding a full-frame
+        copy here removes a large allocation at every capture tick.
+        """
         self._request_mutex.lock()
-        self._pending_request = InferenceRequest(
-            frame=frame.copy(),
-            frame_number=frame_number,
-            timestamp_ms=timestamp_ms,
-            target_sign_id=target_sign_id,
-            target_landmarks=target_landmarks.copy() if target_landmarks is not None else None
-        )
-        self._request_mutex.unlock()
+        try:
+            if self._pending_request is not None:
+                self._dropped_frames += 1
+            self._pending_request = InferenceRequest(
+                frame=frame,
+                frame_number=frame_number,
+                timestamp_ms=timestamp_ms,
+                target_sign_id=target_sign_id,
+                target_landmarks=target_landmarks,
+            )
+        finally:
+            self._request_mutex.unlock()
     
     @Slot()
     def set_paused(self, paused: bool) -> None:
@@ -209,8 +223,6 @@ class InferenceWorker(QThread):
         logger.info("Inference worker started")
         
         while self._running:
-            loop_start = time.perf_counter()
-            
             # Handle pause
             self._mutex.lock()
             if self._paused:
@@ -235,9 +247,16 @@ class InferenceWorker(QThread):
             try:
                 result = self._process_frame(request)
                 self.result_ready.emit(result)
+                self._consecutive_errors = 0
             except Exception as e:
-                logger.error(f"Inference error: {e}")
-                self.error_occurred.emit(str(e))
+                # Throttled: a per-frame error here would both flood the log and
+                # add latency to every single frame.
+                self._consecutive_errors += 1
+                if self._consecutive_errors == 1 or self._consecutive_errors % 60 == 0:
+                    logger.error(
+                        f"Inference error ({self._consecutive_errors} consecutive): {e}"
+                    )
+                    self.error_occurred.emit(str(e))
             
             # Update FPS
             self._frame_count += 1
@@ -248,12 +267,6 @@ class InferenceWorker(QThread):
                 self._frame_count = 0
                 self._last_fps_time = now
             
-            # Track inference time
-            inference_time = (time.perf_counter() - loop_start) * 1000
-            self._inference_times.append(inference_time)
-            if len(self._inference_times) > 100:
-                self._inference_times.pop(0)
-        
         logger.info("Inference worker stopped")
     
     def _process_frame(self, request: InferenceRequest) -> Any:
@@ -264,18 +277,18 @@ class InferenceWorker(QThread):
         
         start_time = time.perf_counter()
         
-        # Downscale frame for inference (max 480px on longest side)
+        # The capture service requests 640x480.  Keep that detail for reliable
+        # fingertip detection and only reduce unexpectedly high-resolution
+        # devices; this avoids both a resize and loss of small-hand detail for
+        # the normal camera path.
         inference_frame = request.frame
         h, w = request.frame.shape[:2]
         max_dim = max(h, w)
-        if max_dim > 480:
-            scale = 480.0 / max_dim
+        if max_dim > 640:
+            scale = 640.0 / max_dim
             new_w = int(w * scale)
             new_h = int(h * scale)
             inference_frame = cv2.resize(request.frame, (new_w, new_h), interpolation=cv2.INTER_AREA)
-        else:
-            inference_frame = request.frame
-            scale = 1.0
         
         # Hand tracking (use downscaled frame for faster inference)
         tracker_result = HandTrackerResult(hands=[])
@@ -315,8 +328,8 @@ class InferenceWorker(QThread):
                 fingertip_px = (fingertip[0] * w, fingertip[1] * h)
                 dwell_result = self._dwell_detector.update(fingertip_px, "target_button")
         
-        inference_time = (time.perf_counter() - loop_start) * 1000
-        processing_time = (time.perf_counter() - start_time) * 1000
+        inference_time = (time.perf_counter() - start_time) * 1000
+        processing_time = inference_time
         
         # Track inference time
         self._inference_times.append(inference_time)
@@ -334,8 +347,10 @@ class InferenceWorker(QThread):
             dwell_result=dwell_result,
             processing_time_ms=processing_time,
             inference_time_ms=inference_time,
-            target_sign_id=self._target_sign_id,
-            target_landmarks=self._target_landmarks
+            # The queued request is authoritative.  The user may switch
+            # lesson targets while this frame is being processed.
+            target_sign_id=request.target_sign_id,
+            target_landmarks=request.target_landmarks,
         )
         
         return result
@@ -354,6 +369,10 @@ class InferenceWorker(QThread):
         idx = int(len(sorted_times) * 0.95)
         return sorted_times[idx]
     
+    def get_dropped_frames(self) -> int:
+        """Number of frames skipped because inference was still busy."""
+        return self._dropped_frames
+
     def cleanup(self) -> None:
         """Clean up resources."""
         self.stop()

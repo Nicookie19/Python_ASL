@@ -19,6 +19,26 @@ from app.data.db import (
 logger = logging.getLogger(__name__)
 
 
+def _resolve_reference_landmarks(stored: Optional[Any], label: str) -> Optional[List[float]]:
+    """Return stored reference landmarks, or synthesise them for known signs.
+
+    Content packs ship descriptions but no landmark templates, which left the
+    reference figure panel and the live skeleton comparison with nothing to
+    draw. Fall back to the parametric hand rig for any sign it recognises.
+    """
+    if stored:
+        return stored
+    try:
+        from app.core.hand_rig import reference_landmarks_for
+        landmarks = reference_landmarks_for(label)
+    except Exception as exc:  # pragma: no cover - rig is pure numpy
+        logger.warning(f"Could not build reference landmarks for '{label}': {exc}")
+        return None
+    if landmarks is None:
+        return None
+    return landmarks.reshape(-1).tolist()
+
+
 @dataclass
 class ContentPack:
     """Represents a loaded content pack (sign language)."""
@@ -114,7 +134,9 @@ class ContentPackLoader:
                     description=sign_data.get("description", ""),
                     scored=sign_data.get("scored", True),
                     handedness=sign_data.get("handedness", "both"),
-                    reference_landmarks=sign_data.get("reference_landmarks"),
+                    reference_landmarks=_resolve_reference_landmarks(
+                        sign_data.get("reference_landmarks"), sign_data["label"]
+                    ),
                     metadata=sign_data.get("metadata", {})
                 )
                 pack.signs[sign.id] = sign

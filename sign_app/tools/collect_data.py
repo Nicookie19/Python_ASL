@@ -29,13 +29,17 @@ from app.data.db import ModuleCategory, Difficulty
 class DataCollector:
     """Collects hand landmark data for training."""
 
-    def __init__(self, output_dir: Path, camera_index: int = 0):
+    def __init__(self, output_dir: Path, camera_device_id: str | None = None):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        self.camera_index = camera_index
+        # Cameras are identified by stable device ID, never by index.
+        self.camera_device_id = camera_device_id
         self.tracker = HandTracker()
         self.extractor = FeatureExtractor()
+
+        self._latest_frame = None
+        self._service = None
 
         self.session_id = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.person_id = "collector_1"  # Could be made configurable
@@ -50,10 +54,47 @@ class DataCollector:
             "session_id": self.session_id,
             "person_id": self.person_id,
             "timestamp": datetime.now().isoformat(),
-            "camera_index": camera_index,
+            "camera_device_id": camera_device_id or "",
             "labels": [],
             "samples_per_label": {}
         }
+
+    def _start_camera(self):
+        """Open the shared camera via CameraService."""
+        from app.core.camera_service import CameraService
+
+        self._service = CameraService.instance()
+        if self.camera_device_id:
+            self._service.set_active_device(self.camera_device_id)
+        self._service.frame_ready.connect(self._on_frame)
+        self._service.acquire("collect_data")
+        device = self._service.get_active_device()
+        if device is None:
+            return False
+        self.metadata["camera_device_id"] = device.device_id
+        self.metadata["camera_name"] = device.name
+        print(f"Using camera: {device.name} (id={device.device_id})")
+        return True
+
+    def _on_frame(self, camera_frame):
+        self._latest_frame = getattr(camera_frame, "frame", camera_frame)
+
+    def _next_frame(self, timeout: float = 1.0):
+        """Return the most recent frame, or None if none arrives in time."""
+        deadline = time.time() + timeout
+        while self._latest_frame is None and time.time() < deadline:
+            time.sleep(0.005)
+        frame = self._latest_frame
+        self._latest_frame = None
+        return frame
+
+    def _stop_camera(self):
+        if self._service is not None:
+            try:
+                self._service.frame_ready.disconnect(self._on_frame)
+            except (TypeError, RuntimeError):
+                pass
+            self._service.release("collect_data")
 
     def _init_csv(self):
         """Initialize CSV with headers."""
@@ -87,20 +128,15 @@ class DataCollector:
             print("ERROR: Failed to initialize hand tracker")
             return 0
 
-        cap = cv2.VideoCapture(self.camera_index)
-        if not cap.isOpened():
-            print(f"ERROR: Could not open camera {self.camera_index}")
+        if not self._start_camera():
+            print("ERROR: Could not open a camera through CameraService")
             return 0
-
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
         # Countdown
         for i in range(countdown, 0, -1):
-            ret, frame = cap.read()
-            if ret:
-                frame = cv2.flip(frame, 1)
+            frame = self._next_frame()
+            if frame is not None:
+                frame = frame.copy()
                 cv2.putText(frame, f"Starting in {i}...", (50, 100),
                            cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3)
                 cv2.putText(frame, f"Sign: {label}", (50, 200),
@@ -116,11 +152,10 @@ class DataCollector:
         print("Collecting... Press 'q' to stop early.")
 
         while collected < num_samples:
-            ret, frame = cap.read()
-            if not ret:
+            frame = self._next_frame()
+            if frame is None:
                 continue
 
-            frame = cv2.flip(frame, 1)
             result = self.tracker.process(frame, timestamp_ms=int(time.time() * 1000))
 
             # Draw landmarks on preview
@@ -160,7 +195,7 @@ class DataCollector:
                         cv2.imshow("Data Collection", annotated)
                         cv2.waitKey(50)
 
-        cap.release()
+        self._stop_camera()
         if show_preview:
             cv2.destroyAllWindows()
 
@@ -199,8 +234,9 @@ def main():
     parser = argparse.ArgumentParser(description="Collect hand landmark data for ASL training")
     parser.add_argument("--output", "-o", default="data/collected",
                        help="Output directory for collected data")
-    parser.add_argument("--camera", "-c", type=int, default=0,
-                       help="Camera index")
+    parser.add_argument("--camera", "-c", default=None,
+                       help="Camera device ID (default: best available). "
+                            "Run tools/camera_diagnose.py to list IDs.")
     parser.add_argument("--samples", "-n", type=int, default=50,
                        help="Samples per label")
     parser.add_argument("--labels", "-l", nargs="+",
@@ -224,7 +260,7 @@ def main():
     print("ASL Data Collection Tool")
     print("=" * 60)
     print(f"Output directory: {args.output}")
-    print(f"Camera: {args.camera}")
+    print(f"Camera device id: {args.camera or 'auto (built-in preferred)'}")
     print(f"Samples per label: {args.samples}")
     print(f"Labels: {', '.join(labels)}")
     print("=" * 60)

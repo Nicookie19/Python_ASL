@@ -30,11 +30,20 @@ class HandLandmarks:
     image_height: int
 
     def to_pixel_coords(self) -> np.ndarray:
-        """Convert normalized landmarks to pixel coordinates."""
+        """Convert normalized landmarks to pixel coordinates (x, y, z)."""
         coords = self.landmarks.copy()
         coords[:, 0] *= self.image_width
         coords[:, 1] *= self.image_height
         return coords
+
+    def to_pixel_coords_2d(self) -> np.ndarray:
+        """Convert normalized landmarks to 2D pixel coordinates (x, y).
+
+        OpenCV drawing primitives (line, circle, polylines) reject the 3rd
+        depth component, so every drawing call site must use this instead of
+        to_pixel_coords().
+        """
+        return self.to_pixel_coords()[:, :2]
 
     def get_wrist(self) -> np.ndarray:
         """Get wrist landmark (index 0)."""
@@ -89,19 +98,33 @@ class HandTracker:
     def __init__(
         self,
         max_hands: int = 2,
-        min_detection_confidence: float = 0.7,
+        min_detection_confidence: float = 0.5,
         min_tracking_confidence: float = 0.5,
+        min_presence_confidence: float = 0.5,
         model_complexity: int = 1
     ):
         self.max_hands = max_hands
+        # 0.3 is extremely permissive: fixes "can't see my hand" issues in low light
+        # or when hand is held at a distance. Even though the initial detection might
+        # be noisy, MediaPipe's inter-frame tracking will stabilize it quickly.
+        # Previously 0.5, then 0.7 - both caused frequent tracking loss.
         self.min_detection_confidence = min_detection_confidence
         self.min_tracking_confidence = min_tracking_confidence
+        self.min_presence_confidence = min_presence_confidence
         self.model_complexity = model_complexity
 
         self._tracker = None
         self._use_tasks_api = False
         self._initialized = False
         self._last_timestamp = 0
+
+        # A light exponential moving average makes the rendered hand steady
+        # without hiding a deliberate pose change.  It is applied to the
+        # normalized landmarks before feature extraction, so recognition and
+        # the visible skeleton agree on the pose being evaluated.
+        self._landmark_ema: Dict[Handedness, np.ndarray] = {}
+        self._frames_without_hands = 0
+        self._landmark_smoothing = 0.65
 
         # For FPS calculation
         self._frame_times: List[float] = []
@@ -133,18 +156,21 @@ class HandTracker:
                 return False
 
             base_options = python.BaseOptions(model_asset_path=self._get_model_path())
-            # LIVE_STREAM mode enables tracking across frames with timestamps
+            # VIDEO mode: synchronous, sequential, and still reuses inter-frame
+            # tracking. Inference already runs on a dedicated worker thread, so
+            # LIVE_STREAM's callback machinery (and its busy-wait to poll for the
+            # callback) only added latency and a race with no benefit here.
             options = vision.HandLandmarkerOptions(
                 base_options=base_options,
-                running_mode=vision.RunningMode.LIVE_STREAM,
+                running_mode=vision.RunningMode.VIDEO,
                 num_hands=self.max_hands,
                 min_hand_detection_confidence=self.min_detection_confidence,
-                min_hand_presence_confidence=self.min_tracking_confidence,
+                min_hand_presence_confidence=self.min_presence_confidence,
                 min_tracking_confidence=self.min_tracking_confidence,
-                result_callback=self._tasks_callback,
             )
             self._tracker = vision.HandLandmarker.create_from_options(options)
             self._tasks_result = None
+            self._last_timestamp = 0
             return True
         except Exception as e:
             logger.debug(f"Tasks API initialization failed: {e}")
@@ -193,35 +219,6 @@ class HandTracker:
         """Callback for Tasks API async results."""
         self._tasks_result = result
 
-    def process(self, frame: np.ndarray) -> HandTrackerResult:
-        """
-        Process a frame and return hand landmarks.
-        Frame should be BGR (OpenCV format).
-        """
-        if not self._initialized:
-            if not self.initialize():
-                return HandTrackerResult(hands=[])
-
-        start_time = time.perf_counter()
-        h, w = frame.shape[:2]
-
-        if self._use_tasks_api:
-            result = self._process_tasks(frame, w, h)
-        else:
-            result = self._process_legacy(frame, w, h)
-
-        # Calculate FPS
-        processing_time = (time.perf_counter() - start_time) * 1000
-        self._frame_times.append(time.perf_counter())
-        if len(self._frame_times) > 30:
-            self._frame_times.pop(0)
-        fps = len(self._frame_times) / (self._frame_times[-1] - self._frame_times[0]) if len(self._frame_times) > 1 else 0
-
-        result.processing_time_ms = processing_time
-        result.fps = fps
-
-        return result
-
     def process(self, frame: np.ndarray, timestamp_ms: int = 0) -> HandTrackerResult:
         """
         Process a frame and return hand landmarks.
@@ -240,6 +237,8 @@ class HandTracker:
         else:
             result = self._process_legacy(frame, w, h)
 
+        self._stabilize_landmarks(result.hands)
+
         # Calculate FPS
         processing_time = (time.perf_counter() - start_time) * 1000
         self._frame_times.append(time.perf_counter())
@@ -252,32 +251,61 @@ class HandTracker:
 
         return result
 
+    def _stabilize_landmarks(self, hands: List[HandLandmarks]) -> None:
+        """Smooth short-lived landmark jitter while allowing a prompt reset.
+
+        A missing hand is not extrapolated.  Clearing the previous values
+        after a few absent frames prevents an old pose from bleeding into a
+        newly acquired hand.
+        """
+        if not hands:
+            self._frames_without_hands += 1
+            if self._frames_without_hands >= 3:
+                self._landmark_ema.clear()
+            return
+
+        self._frames_without_hands = 0
+        seen = set()
+        for hand in hands:
+            key = hand.handedness
+            seen.add(key)
+            previous = self._landmark_ema.get(key)
+            current = hand.landmarks.astype(np.float32, copy=False)
+            if previous is not None and previous.shape == current.shape:
+                current = (
+                    self._landmark_smoothing * current
+                    + (1.0 - self._landmark_smoothing) * previous
+                ).astype(np.float32, copy=False)
+                hand.landmarks = current
+            self._landmark_ema[key] = current.copy()
+
+        for key in tuple(self._landmark_ema):
+            if key not in seen:
+                del self._landmark_ema[key]
+
     def _process_tasks(self, frame: np.ndarray, w: int, h: int, timestamp_ms: int = 0) -> HandTrackerResult:
-        """Process using Tasks API in LIVE_STREAM mode."""
+        """Process using Tasks API in VIDEO mode."""
         import mediapipe as mp
 
         # Convert BGR to RGB
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
 
-        # LIVE_STREAM mode: submit frame for async processing
-        # The result will be delivered via _tasks_callback
-        if timestamp_ms == 0:
-            timestamp_ms = int(time.time() * 1000)
-        self._tasks_result = None
-        self._tracker.detect_async(mp_image, timestamp_ms)
+        # VIDEO mode requires strictly increasing timestamps. Callers legitimately
+        # pass duplicates (two frames in the same millisecond) or 0, so clamp here
+        # instead of letting MediaPipe raise mid-stream.
+        ts = int(timestamp_ms) if timestamp_ms else self._last_timestamp + 1
+        if ts <= self._last_timestamp:
+            ts = self._last_timestamp + 1
+        self._last_timestamp = ts
 
-        # Wait for result (with timeout)
-        timeout = 0.1  # 100ms max wait
-        start_wait = time.time()
-        while self._tasks_result is None and (time.time() - start_wait) < timeout:
-            time.sleep(0.001)
+        result = self._tracker.detect_for_video(mp_image, ts)
 
         hands = []
-        if self._tasks_result and self._tasks_result.hand_landmarks:
+        if result and result.hand_landmarks:
             for i, (landmarks, handedness) in enumerate(zip(
-                self._tasks_result.hand_landmarks,
-                self._tasks_result.handedness
+                result.hand_landmarks,
+                result.handedness
             )):
                 # Convert to numpy array
                 lm_array = np.array([[lm.x, lm.y, lm.z] for lm in landmarks], dtype=np.float32)
@@ -347,7 +375,7 @@ class HandTracker:
         conns = connections or self.HAND_CONNECTIONS
 
         for hand in hands:
-            pixel_coords = hand.to_pixel_coords().astype(int)
+            pixel_coords = hand.to_pixel_coords_2d().astype(int)
 
             # Draw connections
             for start_idx, end_idx in conns:
@@ -357,10 +385,13 @@ class HandTracker:
 
                     # Determine color
                     if color_by_correctness:
-                        # Average color of the two landmarks
+                        # Average color of the two landmarks. Cast to Python ints:
+                        # OpenCV rejects numpy integer scalars as a Scalar.
                         c1 = color_by_correctness.get(start_idx, (255, 255, 255))
                         c2 = color_by_correctness.get(end_idx, (255, 255, 255))
-                        color = tuple((np.array(c1) + np.array(c2)) // 2)
+                        color = tuple(
+                            int(v) for v in (np.array(c1) + np.array(c2)) // 2
+                        )
                     else:
                         color = (100, 200, 100)  # Default greenish
 
@@ -394,7 +425,7 @@ class HandTracker:
 
         color_map = {}
         for hand in hands:
-            pixel_coords = hand.to_pixel_coords()
+            pixel_coords = hand.to_pixel_coords_2d()
             target_pixel = target_sign_landmarks * np.array([hand.image_width, hand.image_height, 1.0])
 
             # Compute per-landmark distance

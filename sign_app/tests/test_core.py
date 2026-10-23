@@ -15,6 +15,8 @@ from app.data.db import (
 )
 from app.content.loader import ContentPackLoader, initialize_content_packs, ContentPack
 from app.core.camera_devices import CameraDevice, preferred_camera, is_static_frame_sequence
+from app.core.inference_worker import InferenceResult
+from app.core.pipeline import CorePipeline
 
 
 def test_feature_extractor():
@@ -98,6 +100,73 @@ def test_confidence_meter():
     # Decay when not stable
     label, conf = meter.update("B", 0.1, False)
     assert conf < 0.9
+
+
+def test_landmark_stabilization_reduces_one_frame_jitter():
+    """The tracker should steady landmarks but promptly forget a lost hand."""
+    from app.core.hand_tracker import HandTracker
+
+    tracker = HandTracker()
+    first = HandLandmarks(
+        landmarks=np.zeros((21, 3), dtype=np.float32),
+        handedness=Handedness.RIGHT,
+        confidence=0.9,
+        image_width=640,
+        image_height=480,
+    )
+    tracker._stabilize_landmarks([first])
+
+    second = HandLandmarks(
+        landmarks=np.ones((21, 3), dtype=np.float32),
+        handedness=Handedness.RIGHT,
+        confidence=0.9,
+        image_width=640,
+        image_height=480,
+    )
+    tracker._stabilize_landmarks([second])
+    assert np.allclose(second.landmarks, 0.65)
+
+    for _ in range(3):
+        tracker._stabilize_landmarks([])
+    assert not tracker._landmark_ema
+
+
+def test_pipeline_never_emits_landmarks_as_a_video_frame():
+    """Regression test for the paint-path crash/stutter on hand detection."""
+    pipeline = CorePipeline()
+    pipeline._is_running = True
+    emitted = []
+    pipeline.result_ready.connect(emitted.append)
+
+    hand = HandLandmarks(
+        landmarks=np.zeros((21, 3), dtype=np.float32),
+        handedness=Handedness.RIGHT,
+        confidence=0.9,
+        image_width=640,
+        image_height=480,
+    )
+    pipeline._on_inference_result(InferenceResult(
+        frame_number=7,
+        timestamp_ms=1000.0,
+        hands=[hand],
+        recognition=None,
+        smoothed=None,
+        confidence_meter=("unknown", 0.0),
+        dwell_result=(False, 0.0),
+        processing_time_ms=8.0,
+        inference_time_ms=8.0,
+        target_sign_id="asl_a",
+    ))
+
+    frame = np.zeros((480, 640, 3), dtype=np.uint8)
+    pipeline._on_frame_ready(frame)
+
+    assert len(emitted) == 1
+    result = emitted[0]
+    assert result.frame is frame
+    assert result.frame.shape == (480, 640, 3)
+    assert result.hands == [hand]
+    assert result.inference_frame_number == 7
 
 
 def test_dwell_detector():

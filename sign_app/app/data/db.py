@@ -15,7 +15,7 @@ from enum import Enum
 import threading
 
 
-SCHEMA_VERSION = 5
+SCHEMA_VERSION = 6
 
 
 class UserRole(Enum):
@@ -173,11 +173,17 @@ class AppSettings:
     show_perf_hud: bool = False
     hand_dwell_enabled: bool = True
     language_pack: str = "asl"
+    reduced_motion: bool = False
 
 
 def get_db_path() -> Path:
     """Get the database file path in the user's data directory."""
-    if os.name == 'nt':  # Windows
+    # Honour XDG_DATA_HOME everywhere when explicitly supplied.  It is useful
+    # for portable installs and tests, and prevents macOS from writing outside
+    # the selected data directory.
+    if os.environ.get('XDG_DATA_HOME'):
+        base = Path(os.environ['XDG_DATA_HOME'])
+    elif os.name == 'nt':  # Windows
         base = Path(os.environ.get('APPDATA', Path.home() / 'AppData' / 'Roaming'))
     elif os.name == 'posix' and 'darwin' in os.sys.platform:  # macOS
         base = Path.home() / 'Library' / 'Application Support'
@@ -253,6 +259,10 @@ def init_db() -> None:
         if current_version == 4:
             _migrate_v4_to_v5(conn)
             current_version = 5
+
+        if current_version == 5:
+            _migrate_v5_to_v6(conn)
+            current_version = 6
 
         conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
         conn.commit()
@@ -396,6 +406,7 @@ def _create_schema_v1(conn: sqlite3.Connection) -> None:
             smoothing_frames INTEGER NOT NULL DEFAULT 5,
             show_fps INTEGER NOT NULL DEFAULT 0,
             hand_dwell_enabled INTEGER NOT NULL DEFAULT 1,
+            reduced_motion INTEGER NOT NULL DEFAULT 0,
             language_pack TEXT NOT NULL DEFAULT 'asl',
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
@@ -434,6 +445,22 @@ def _migrate_v1_to_v2(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE app_settings ADD COLUMN language_pack TEXT NOT NULL DEFAULT 'asl'")
 
 
+def _migrate_v2_to_v3(conn: sqlite3.Connection) -> None:
+    """Schema step that required no structural change.
+
+    init_db has always called this, but the function was never defined, so a
+    database left at user_version 2 raised NameError before the app could
+    start. The v1 schema already creates the columns this step would have
+    added, and the later steps re-add anything missing, so an idempotent pass
+    that only backfills a missing app_settings column is correct and safe.
+    """
+    cursor = conn.execute("PRAGMA table_info(app_settings)")
+    columns = [row[1] for row in cursor.fetchall()]
+
+    if "language_pack" not in columns:
+        conn.execute("ALTER TABLE app_settings ADD COLUMN language_pack TEXT NOT NULL DEFAULT 'asl'")
+
+
 def _migrate_v3_to_v4(conn: sqlite3.Connection) -> None:
     """Add camera_device_id column to app_settings for stable device identification."""
     cursor = conn.execute("PRAGMA table_info(app_settings)")
@@ -458,9 +485,18 @@ def _migrate_v4_to_v5(conn: sqlite3.Connection) -> None:
     """Add show_perf_hud column to app_settings."""
     cursor = conn.execute("PRAGMA table_info(app_settings)")
     columns = [row[1] for row in cursor.fetchall()]
-    
+
     if "show_perf_hud" not in columns:
         conn.execute("ALTER TABLE app_settings ADD COLUMN show_perf_hud INTEGER NOT NULL DEFAULT 0")
+
+
+def _migrate_v5_to_v6(conn: sqlite3.Connection) -> None:
+    """Add reduced_motion column to app_settings."""
+    cursor = conn.execute("PRAGMA table_info(app_settings)")
+    columns = [row[1] for row in cursor.fetchall()]
+
+    if "reduced_motion" not in columns:
+        conn.execute("ALTER TABLE app_settings ADD COLUMN reduced_motion INTEGER NOT NULL DEFAULT 0")
 
 
 # Repository classes for data access
@@ -990,13 +1026,14 @@ class SettingsRepository:
                 UPDATE app_settings SET
                     camera_device_id = ?, mirror_camera = ?, theme = ?, text_size = ?,
                     dwell_duration_ms = ?, confidence_threshold = ?, smoothing_frames = ?,
-                    show_fps = ?, hand_dwell_enabled = ?, language_pack = ?
+                    show_fps = ?, hand_dwell_enabled = ?, language_pack = ?,
+                    reduced_motion = ?
                 WHERE user_id = ?
             """, (
                 settings.camera_device_id, int(settings.mirror_camera), settings.theme,
                 settings.text_size, settings.dwell_duration_ms, settings.confidence_threshold,
                 settings.smoothing_frames, int(settings.show_fps), int(settings.hand_dwell_enabled),
-                settings.language_pack, settings.user_id
+                settings.language_pack, int(settings.reduced_motion), settings.user_id
             ))
 
     @staticmethod
@@ -1012,6 +1049,7 @@ class SettingsRepository:
             smoothing_frames=row['smoothing_frames'],
             show_fps=bool(row['show_fps']),
             hand_dwell_enabled=bool(row['hand_dwell_enabled']),
+            reduced_motion=bool(row['reduced_motion']) if 'reduced_motion' in row.keys() else False,
             language_pack=row['language_pack']
         )
 

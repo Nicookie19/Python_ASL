@@ -1,20 +1,49 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Shapes 2.15
+import "../theme"
 
 Item {
     id: cameraView
-    property var frame: null
+    implicitWidth: 720
+    implicitHeight: 440
+
+    // A URL served by the bridge's image provider. Image is deliberately used
+    // here instead of a second QML camera instance, so the app has exactly one
+    // camera owner: the Python CameraService.
+    property string imageSource: ""
     property var hands: []
     property var targetLandmarks: null
     property bool mirror: true
-    property string statusText: ""
+    property string statusText: "Position one hand in the frame"
     property string statusState: "info"
     property bool showFps: false
     property real fps: 0.0
+    property string cameraName: "Camera"
+    property bool darkMode: true
 
-    // Skeleton connections
-    property var connections: [
+    // Computed match quality (0.0 to 1.0) between user hand and target
+    readonly property real matchQuality: (() => {
+        if (!cameraView.targetLandmarks || cameraView.targetLandmarks.length !== 21 ||
+            !cameraView.hands || cameraView.hands.length === 0)
+            return 0
+        var target = cameraView.targetLandmarks
+        var user = cameraView.hands[0].landmarks || cameraView.hands[0]
+        var totalDist = 0
+        var count = 0
+        for (var i = 0; i < 21; i++) {
+            if (target[i] && user[i]) {
+                var dx = target[i].x - user[i].x
+                var dy = target[i].y - user[i].y
+                totalDist += Math.sqrt(dx * dx + dy * dy)
+                count++
+            }
+        }
+        if (count === 0) return 0
+        var avgDist = totalDist / count
+        // Convert distance to quality: <0.05 = 1.0, >0.15 = 0.0
+        return Math.max(0, Math.min(1, 1 - (avgDist - 0.05) / 0.10))
+    })()
+
+    readonly property var handConnections: [
         [0, 1], [1, 2], [2, 3], [3, 4],
         [0, 5], [5, 6], [6, 7], [7, 8],
         [0, 9], [9, 10], [10, 11], [11, 12],
@@ -23,225 +52,249 @@ Item {
         [5, 9], [9, 13], [13, 17]
     ]
 
-    property var theme: Theme
-
-    property alias frame: videoOutput.source
-
-    property var _hands: []
-    property var _targetLandmarks: null
-    property bool _mirror: true
-
-    property var _frame: null
-    property string _statusText: ""
-    property string _statusState: "info"
-    property bool _showFps: false
-    property real _fps: 0.0
-
-    property var _hands: []
-    property var _targetLandmarks: null
-
-    width: 640
-    height: 480
-    minimumWidth: 640
-    minimumHeight: 360
-
-    property alias mirror: videoOutput.mirror
-    property alias statusText: statusText
-    property alias statusState: statusState
+    Theme { id: theme; isDark: cameraView.darkMode }
 
     Rectangle {
-        id: background
+        id: viewport
         anchors.fill: parent
-        color: "#000000"
-        radius: 16
+        radius: theme.radiusLg
+        color: "#070D17"
+        border.width: 1
+        border.color: cameraView.hands && cameraView.hands.length > 0
+                      ? theme.accent() : theme.border()
         clip: true
 
-        VideoOutput {
-            id: videoOutput
+        Behavior on border.color { ColorAnimation { duration: 160 } }
+
+        Image {
+            id: videoPreview
             anchors.fill: parent
-            fillMode: VideoOutput.PreserveAspectFit
+            source: cameraView.imageSource
+            cache: false
+            fillMode: Image.PreserveAspectFit
             mirror: cameraView.mirror
         }
 
-        // Skeleton overlay
+        // A quiet empty state makes the preview feel purposeful before the
+        // native video source is attached.
+        Column {
+            anchors.centerIn: parent
+            visible: !cameraView.imageSource
+            spacing: theme.space2
+
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "⌁"
+                color: theme.accent()
+                font.family: theme.fontFamily
+                font.pixelSize: 42
+            }
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Camera preview will appear here"
+                color: theme.textMuted()
+                font.family: theme.fontFamily
+                font.pixelSize: theme.textMd
+            }
+        }
+
         Canvas {
             id: skeletonCanvas
             anchors.fill: parent
-            onPaint: {
-                var ctx = getContext("2d")
-                ctx.clearRect(0, 0, width, height)
-                if (cameraView._hands && cameraView._hands.length > 0) {
-                    drawSkeleton(ctx)
+            antialiasing: true
+
+            property var targetPoints: []
+            property bool showTargetOnly: false
+
+            function pointAt(points, index) {
+                if (!points || index >= points.length)
+                    return null
+                var point = points[index]
+                if (point === undefined || point === null)
+                    return null
+                return {
+                    x: point.x !== undefined ? point.x : point[0],
+                    y: point.y !== undefined ? point.y : point[1]
                 }
             }
 
-            function drawSkeleton(ctx) {
-                var palette = theme
-                var widgetRect = cameraView
+            function drawPoint(context, point, radius, color) {
+                context.beginPath()
+                context.fillStyle = color
+                context.arc(point.x, point.y, radius, 0, Math.PI * 2)
+                context.fill()
+            }
 
-                for (var h = 0; h < cameraView._hands.length; h++) {
-                    var hand = cameraView._hands[h]
-                    var coords = hand.landmarks
-                    var connections = [
-                        [0, 1], [1, 2], [2, 3], [3, 4],
-                        [0, 5], [5, 6], [6, 7], [7, 8],
-                        [0, 9], [9, 10], [10, 11], [11, 12],
-                        [0, 13], [13, 14], [14, 15], [15, 16],
-                        [0, 17], [17, 18], [18, 19], [19, 20],
-                        [5, 9], [9, 13], [13, 17]
-                    ]
+            function drawPointWithStroke(context, point, radius, fillColor, strokeColor, strokeWidth) {
+                context.beginPath()
+                context.fillStyle = fillColor
+                context.arc(point.x, point.y, radius, 0, Math.PI * 2)
+                context.fill()
+                if (strokeWidth > 0) {
+                    context.strokeStyle = strokeColor
+                    context.lineWidth = strokeWidth
+                    context.stroke()
+                }
+            }
 
-                    var w = cameraView.width
-                    var h = cameraView.height
+            function displayPoint(point) {
+                var previewWidth = videoPreview.paintedWidth > 0 ? videoPreview.paintedWidth : width
+                var previewHeight = videoPreview.paintedHeight > 0 ? videoPreview.paintedHeight : height
+                var rect = Qt.rect((width - previewWidth) / 2,
+                                   (height - previewHeight) / 2,
+                                   previewWidth, previewHeight)
+                return {
+                    x: rect.x + (cameraView.mirror ? 1 - point.x : point.x) * rect.width,
+                    y: rect.y + point.y * rect.height
+                }
+            }
 
-                    // Calculate scale and offset
-                    var frameW = cameraView._frame ? cameraView._frame.width : cameraView.width
-                    var frameH = cameraView._frame ? cameraView._frame.height : cameraView.height
-                    var scaleW = cameraView.width / frameW
-                    var scaleH = cameraView.height / frameH
-                    var scale = Math.min(scaleW, scaleH)
-                    var drawW = frameW * scale
-                    var drawH = frameH * scale
-                    var x = (cameraView.width - drawW) / 2
-                    var y = (cameraView.height - drawH) / 2
-                    var flipX = cameraView.mirror
+            function landmarkColor(point, index) {
+                return theme.accent()
+            }
 
-                    for (var h = 0; h < cameraView._hands.length; h++) {
-                        var hand = cameraView._hands[h]
-                        var coords = []
-                        for (var i = 0; i < 21; i++) {
-                            var lm = hand.landmarks[i]
-                            var cx = lm[0] * cameraView.width
-                            var cy = lm[1] * cameraView.height
-                            if (cameraView.mirror) {
-                                cx = cameraView.width - cx
-                            }
-                            coords.push({x: cx, y: cy})
-                        }
+            function targetLandmarkColor(index) {
+                var target = pointAt(cameraView.targetLandmarks, index)
+                if (!target)
+                    return theme.accent()
+                var userPoint = null
+                if (cameraView.hands && cameraView.hands.length > 0) {
+                    var landmarks = cameraView.hands[0].landmarks || cameraView.hands[0]
+                    userPoint = pointAt(landmarks, index)
+                }
+                if (!userPoint)
+                    return theme.accent()
+                var distance = Math.sqrt(Math.pow(target.x - userPoint.x, 2)
+                                         + Math.pow(target.y - userPoint.y, 2))
+                if (distance < 0.05) return theme.success()
+                if (distance < 0.12) return theme.warning()
+                return theme.danger()
+            }
 
-                        // Determine colors based on correctness
-                        var colors = []
-                        if (cameraView._targetLandmarks) {
-                            var targetCoords = []
-                            for (var i = 0; i < 21; i++) {
-                                var lm = cameraView._targetLandmarks[i]
-                                var cx = lm[0] * cameraView.width
-                                var cy = lm[1] * cameraView.height
-                                if (cameraView.mirror) {
-                                    cx = cameraView.width - cx
-                                }
-                                targetCoords.push({x: cx, y: cy})
-                            }
-                            for (var i = 0; i < 21; i++) {
-                                var dist = Math.sqrt(
-                                    Math.pow(coords[i].x - targetCoords[i].x, 2) +
-                                    Math.pow(coords[i].y - targetCoords[i].y, 2)
-                                )
-                                var normDist = dist / Math.max(cameraView.width, cameraView.height)
-                                if (normDist < 0.05) {
-                                    colors.push(Qt.rgba(0.29, 0.87, 0.5, 1)) // success green
-                                } else if (normDist < 0.12) {
-                                    colors.push(Qt.rgba(0.98, 0.73, 0.15, 1)) // warning yellow
-                                } else {
-                                    colors.push(Qt.rgba(0.97, 0.44, 0.44, 1)) // error red
-                                }
-                            }
-                        } else {
-                            for (var i = 0; i < 21; i++) {
-                                colors.push(Qt.rgba(0.63, 0.63, 0.67, 1)) // neutral
-                            }
-                        }
+            onPaint: {
+                var context = getContext("2d")
+                context.clearRect(0, 0, width, height)
 
-                        // Draw connections
-                        var connections = [
-                            [0, 1], [1, 2], [2, 3], [3, 4],
-                            [0, 5], [5, 6], [6, 7], [7, 8],
-                            [0, 9], [9, 10], [10, 11], [11, 12],
-                            [0, 13], [13, 14], [14, 15], [15, 16],
-                            [0, 17], [17, 18], [18, 19], [19, 20],
-                            [5, 9], [9, 13], [13, 17]
-                        ]
+                if (!cameraView.hands || cameraView.hands.length === 0)
+                    return
 
-                        ctx.lineWidth = 3
-                        for (var c = 0; c < connections.length; c++) {
-                            var start = connections[c][0]
-                            var end = connections[c][1]
-                            if (start < coords.length && end < coords.length) {
-                                var c1 = colors[start]
-                                var c2 = colors[end]
-                                var r = (c1.r + c2.r) / 2
-                                var g = (c1.g + c2.g) / 2
-                                var b = (c1.b + c2.b) / 2
-                                ctx.strokeStyle = Qt.rgba(r, g, b, 1)
-                                ctx.beginPath()
-                                ctx.moveTo(coords[start].x, coords[start].y)
-                                ctx.lineTo(coords[end].x, coords[end].y)
-                                ctx.stroke()
-                            }
-                        }
+                // Draw user hand
+                context.lineWidth = 3
+                context.lineCap = "round"
+                context.lineJoin = "round"
 
-                        // Draw landmark points
-                        for (var i = 0; i < 21; i++) {
-                            if (i < coords.length) {
-                                var color = colors[i]
-                                ctx.fillStyle = Qt.rgba(color.r, color.g, color.b, color.a)
-                                ctx.beginPath()
-                                ctx.arc(coords[i].x, coords[i].y, 6, 0, 2 * Math.PI)
-                                ctx.fill()
-                                ctx.strokeStyle = "#000000"
-                                ctx.lineWidth = 2
-                                ctx.stroke()
-                            }
-                        }
+                for (var handIndex = 0; handIndex < cameraView.hands.length; handIndex++) {
+                    var hand = cameraView.hands[handIndex]
+                    var landmarks = hand.landmarks || hand
+                    var points = []
+                    for (var index = 0; index < 21; index++) {
+                        var raw = pointAt(landmarks, index)
+                        if (raw) points[index] = displayPoint(raw)
+                    }
+
+                    for (var line = 0; line < cameraView.handConnections.length; line++) {
+                        var pair = cameraView.handConnections[line]
+                        var start = points[pair[0]]
+                        var end = points[pair[1]]
+                        if (!start || !end) continue
+                        context.strokeStyle = theme.accent()
+                        context.globalAlpha = 0.9
+                        context.beginPath()
+                        context.moveTo(start.x, start.y)
+                        context.lineTo(end.x, end.y)
+                        context.stroke()
+                    }
+
+                    context.globalAlpha = 1
+                    for (var dot = 0; dot < points.length; dot++) {
+                        if (points[dot])
+                            drawPoint(context, points[dot], dot === 8 ? 6 : 4,
+                                      landmarkColor(pointAt(landmarks, dot), dot))
                     }
                 }
             }
         }
-    }
 
-    // Video output for camera feed
-    VideoOutput {
-        id: videoOutput
-        anchors.fill: parent
-        fillMode: VideoOutput.PreserveAspectFit
-        mirror: cameraView.mirror
-        source: cameraView.frame
-    }
+        Rectangle {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.margins: theme.space3
+            width: cameraPill.implicitWidth + theme.space3 * 2
+            height: 30
+            radius: height / 2
+            color: "#B8070D17"
 
-    // Status banner overlay
-    Rectangle {
-        id: statusBanner
-        visible: cameraView.statusText !== ""
-        width: Math.min(cameraView.width - 32, cameraView.width * 0.9)
-        height: 48
-        radius: 12
-        color: Qt.rgba(0, 0, 0, 0.7)
-        x: (parent.width - width) / 2
-        y: 16
-        radius: 12
-        clip: true
+            Row {
+                id: cameraPill
+                anchors.centerIn: parent
+                spacing: theme.space2
+                Rectangle {
+                    width: 7; height: 7; radius: 4
+                    color: cameraView.hands && cameraView.hands.length > 0
+                           ? theme.success() : theme.accent()
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                Text {
+                    text: cameraView.cameraName
+                    color: theme.text()
+                    font.family: theme.fontFamily
+                    font.pixelSize: theme.textXs
+                    font.weight: Font.DemiBold
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+        }
 
-        Text {
-            anchors.centerIn: parent
-            text: cameraView.statusText
-            color: cameraView.statusState === "error" ? "#F87171" :
-                   cameraView.statusState === "success" ? "#4ADE80" :
-                   cameraView.statusState === "warning" ? "#FBBF24" : "#22D3EE"
-            font.family: "Inter, SF Pro Display, sans-serif"
-            font.size: 14
-            font.weight: 500
-            wrapMode: Text.WordWrap
+        Rectangle {
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: theme.space3
+            visible: cameraView.showFps && cameraView.fps > 0
+            width: fpsText.implicitWidth + theme.space3 * 2
+            height: 30
+            radius: height / 2
+            color: "#B8070D17"
+            Text {
+                id: fpsText
+                anchors.centerIn: parent
+                text: Math.round(cameraView.fps) + " FPS"
+                color: theme.text()
+                font.family: theme.fontFamily
+                font.pixelSize: theme.textXs
+                font.weight: Font.DemiBold
+            }
+}
+
+        Rectangle {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: theme.space3
+            width: Math.min(parent.width - theme.space5 * 2, statusLabel.implicitWidth + theme.space5)
+            height: Math.max(34, statusLabel.implicitHeight + theme.space3)
+            radius: height / 2
+            color: theme.stateSurface(cameraView.statusState)
+            border.width: 1
+            border.color: theme.stateColor(cameraView.statusState)
+            visible: cameraView.statusText.length > 0
+
+            Text {
+                id: statusLabel
+                anchors.centerIn: parent
+                width: parent.width - theme.space5
+                text: cameraView.statusText
+                color: theme.stateColor(cameraView.statusState)
+                font.family: theme.fontFamily
+                font.pixelSize: theme.textSm
+                font.weight: Font.Medium
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+            }
         }
     }
 
-    // FPS counter
-    Text {
-        visible: cameraView.showFps && cameraView.fps > 0
-        text: cameraView.fps.toFixed(1) + " FPS"
-        x: 16
-        y: 16
-        color: "#71717A"
-        font.family: "Inter, SF Pro Display, sans-serif"
-        font.size: 12
-        font.weight: 500
-    }
+    onHandsChanged: skeletonCanvas.requestPaint()
+    onTargetLandmarksChanged: {}
+    onMirrorChanged: skeletonCanvas.requestPaint()
+    onWidthChanged: skeletonCanvas.requestPaint()
+    onHeightChanged: skeletonCanvas.requestPaint()
+}

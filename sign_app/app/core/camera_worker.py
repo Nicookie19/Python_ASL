@@ -1,288 +1,231 @@
 """
-Camera capture worker running in a background QThread.
-Provides frames via signals, never blocks the UI thread.
+Camera sources for the pipeline.
+
+``CameraWorker`` is a thin adapter over the shared :class:`CameraService`. It
+opens nothing itself: it acquires the service and republishes its frames. This
+keeps a single camera device open for the whole app regardless of how many
+screens are visible.
+
+``FakeCameraWorker`` generates synthetic frames without touching any real
+camera. It exists for tests, the UI linter and screenshot tooling, and is not a
+camera code path.
 """
 
-import sys
+from __future__ import annotations
+
+import logging
+import math
 import time
+from typing import List, Optional, Tuple
+
 import cv2
 import numpy as np
-from PySide6.QtCore import QThread, Signal, Slot, QMutex, QWaitCondition
-from typing import Optional, List, Tuple
-import logging
+from PySide6.QtCore import QObject, QThread, QMutex, QWaitCondition, Signal, Slot
 
-from app.core.camera_devices import discover_camera_devices, preferred_camera, is_static_frame_sequence
+from app.core.camera_devices import CameraDevice, discover_camera_devices
 
 logger = logging.getLogger(__name__)
 
+_OWNER = "pipeline"
 
-class CameraWorker(QThread):
-    """
-    Background thread for camera capture.
-    Emits frames as numpy arrays (BGR) via frame_ready signal.
+
+class CameraWorker(QObject):
+    """Adapter that republishes the shared CameraService's frames.
+
+    Deliberately not a QThread: capture, decoding and conversion all happen in
+    the service's own worker thread. Having a second thread here used to mean
+    two threads racing to convert and draw the same frame.
     """
 
-    frame_ready = Signal(np.ndarray)  # BGR frame
+    frame_ready = Signal(np.ndarray)
     error_occurred = Signal(str)
-    camera_started = Signal(int)  # camera index (OpenCV index)
+    camera_started = Signal(object)
     camera_stopped = Signal()
     static_feed_detected = Signal(str)
 
-    def __init__(self, camera_device: Optional['CameraDevice'] = None, camera_index: int = 0, target_fps: int = 30, resolution: Tuple[int, int] = (640, 480)):
+    def __init__(
+        self,
+        camera_device: Optional[CameraDevice] = None,
+        target_fps: int = 30,
+        resolution: Tuple[int, int] = (640, 480),
+        camera_service=None,
+    ):
         super().__init__()
-        # Store camera device info
-        self._camera_device = camera_device
-        # Use cv_index from CameraDevice if available, otherwise fall back to camera_index
-        if camera_device is not None and camera_device.cv_index >= 0:
-            self.camera_index = camera_device.cv_index
-        else:
-            self.camera_index = camera_index
         self.target_fps = target_fps
         self.resolution = resolution
+        self._camera_device = camera_device
         self._running = False
-        self._cap: Optional[cv2.VideoCapture] = None
+        self._acquired = False
+        self._service = camera_service
+        self.last_capture_timestamp_ms = 0.0
+
+    # -- lifecycle ---------------------------------------------------------
+    def start(self) -> None:
+        """Acquire the shared camera. Reference-counted across screens."""
+        if self._running:
+            return
+        self._running = True
+
+        if self._service is None:
+            from app.core.camera_service import CameraService
+
+            self._service = CameraService.instance()
+
+        if self._camera_device and self._camera_device.device_id:
+            self._service.set_active_device(self._camera_device.device_id)
+
+        self._service.frame_ready.connect(self._on_camera_frame)
+        self._service.error_occurred.connect(self.error_occurred.emit)
+        self._service.static_feed_detected.connect(self.static_feed_detected.emit)
+        self._service.active_device_changed.connect(self._on_device_changed)
+
+        self._acquired = self._service.acquire(_OWNER)
+        self.camera_started.emit(self._service.get_active_device_id())
+
+    def stop(self) -> None:
+        """Release the shared camera."""
+        if not self._running:
+            return
+        self._running = False
+
+        if self._service is not None:
+            try:
+                self._service.frame_ready.disconnect(self._on_camera_frame)
+                self._service.error_occurred.disconnect(self.error_occurred.emit)
+                self._service.static_feed_detected.disconnect(self.static_feed_detected.emit)
+                self._service.active_device_changed.disconnect(self._on_device_changed)
+            except (TypeError, RuntimeError):
+                pass
+            if self._acquired:
+                self._service.release(_OWNER)
+                self._acquired = False
+
+        self.camera_stopped.emit()
+
+    @Slot(object)
+    def _on_camera_frame(self, camera_frame) -> None:
+        """CameraService hands us a CameraFrame; the pipeline wants the array."""
+        frame = getattr(camera_frame, "frame", camera_frame)
+        # Kept so the pipeline can measure real capture -> display latency.
+        self.last_capture_timestamp_ms = getattr(camera_frame, "timestamp_ms", 0.0)
+        self.frame_ready.emit(frame)
+
+    @Slot(str, str)
+    def _on_device_changed(self, _old_id: str, new_id: str) -> None:
+        logger.info("Active camera changed to %s", new_id)
+        self.camera_started.emit(new_id)
+
+    # -- configuration -----------------------------------------------------
+    @Slot(object)
+    def set_camera_device(self, device: Optional[CameraDevice]) -> None:
+        """Switch to a specific device by stable ID."""
+        self._camera_device = device
+        if self._service is not None and device is not None and device.device_id:
+            self._service.set_active_device(device.device_id)
+
+    @Slot(object)
+    def set_camera_index(self, index: int) -> None:
+        """Deprecated: indices are not stable.
+
+        Kept so old call sites keep working; resolves to whatever device the
+        service currently considers preferred.
+        """
+        logger.warning("set_camera_index(%s) is deprecated; indices are not stable", index)
+        if self._service is not None:
+            preferred = self.get_camera_devices()
+            builtin = next((d for d in preferred if d.is_builtin), None)
+            if builtin is not None:
+                self.set_camera_device(builtin)
+
+    @Slot(bool)
+    def set_mirror(self, mirror: bool) -> None:
+        if self._service is not None:
+            self._service.set_mirror(mirror)
+
+    @Slot(tuple)
+    def set_resolution(self, resolution: Tuple[int, int]) -> None:
+        self.resolution = resolution
+        if self._service is not None:
+            self._service.set_resolution(*resolution)
+
+    # -- queries -----------------------------------------------------------
+    def get_available_cameras(self, max_test: int = 6) -> List[int]:
+        """Deprecated: returns device *orders*, not stable indices."""
+        return [d.index for d in discover_camera_devices()][:max_test]
+
+    def get_camera_devices(self) -> List[CameraDevice]:
+        return discover_camera_devices()
+
+
+class FakeCameraWorker(QThread):
+    """Synthetic frame source for tests and tooling. Opens no real camera."""
+
+    frame_ready = Signal(np.ndarray)
+    error_occurred = Signal(str)
+    camera_started = Signal(object)
+    camera_stopped = Signal()
+    static_feed_detected = Signal(str)
+
+    def __init__(
+        self,
+        target_fps: int = 30,
+        resolution: Tuple[int, int] = (640, 480),
+        mirror: bool = True,
+    ):
+        super().__init__()
+        self.target_fps = target_fps
+        self.resolution = resolution
+        self._mirror = mirror
+        self._running = False
         self._mutex = QMutex()
         self._pause_condition = QWaitCondition()
         self._paused = False
-        self._mirror = True
-        self._recent_frames: List[np.ndarray] = []
-        self._static_warning_sent = False
-        self._started_at = 0.0
 
-    def run(self) -> None:
-        """Main capture loop."""
-        self._running = True
-        self._started_at = time.monotonic()
-        self._cap = self._open_camera()
+    def get_available_cameras(self, max_test: int = 5) -> List[int]:
+        return [-1]
 
-        if self._cap is None:
-            self.error_occurred.emit(f"Could not open camera index {self.camera_index}")
-            self._running = False
-            return
-
-        self.camera_started.emit(self.camera_index)
-        logger.info(f"Camera {self.camera_index} started at {self.resolution[0]}x{self.resolution[1]} @ {self.target_fps}fps")
-
-        frame_interval = 1.0 / self.target_fps
-
-        while self._running:
-            frame_started = time.perf_counter()
-            # Handle pause
-            self._mutex.lock()
-            if self._paused:
-                self._pause_condition.wait(self._mutex)
-            self._mutex.unlock()
-
-            if not self._running:
-                break
-
-            ret, frame = self._cap.read()
-            if not ret or frame is None:
-                logger.warning("Failed to read frame from camera")
-                self.error_occurred.emit("Camera frame read failed")
-                self.msleep(100)
-                continue
-
-            # AVFoundation can ignore requested capture dimensions (notably
-            # returning 1920x1080 on built-in cameras). Downscale here so the
-            # inference worker has a predictable latency and the UI receives a
-            # sensible preview size. Landmark coordinates stay normalized.
-            height, width = frame.shape[:2]
-            max_width, max_height = self.resolution
-            scale = min(max_width / width, max_height / height, 1.0)
-            if scale < 1.0:
-                frame = cv2.resize(frame, (round(width * scale), round(height * scale)), interpolation=cv2.INTER_AREA)
-
-            # Mirror for selfie view
-            if self._mirror:
-                frame = cv2.flip(frame, 1)
-
-            # Emit frame (make a copy to avoid race conditions)
-            self.frame_ready.emit(frame.copy())
-
-            # A virtual camera's idle card is a valid video frame, so opening
-            # successfully is not enough. Detect an effectively unchanged feed
-            # after two seconds and surface a choice to the user.
-            self._recent_frames.append(cv2.resize(frame, (160, 90)))
-            self._recent_frames = self._recent_frames[-30:]
-            if (not self._static_warning_sent and time.monotonic() - self._started_at >= 2.0
-                    and len(self._recent_frames) >= 12 and is_static_frame_sequence(self._recent_frames)):
-                self._static_warning_sent = True
-                self.static_feed_detected.emit(
-                    "This camera is sending a still image (it may be a virtual camera like OBS). Choose another camera."
-                )
-
-            # Throttle to target FPS, accounting for capture + inference time.
-            # Sleeping a full interval after processing used to halve FPS.
-            elapsed = time.perf_counter() - frame_started
-            remaining_ms = int(max(0.0, frame_interval - elapsed) * 1000)
-            if remaining_ms:
-                self.msleep(remaining_ms)
-
-        self._cleanup()
-        self.camera_stopped.emit()
-        logger.info("Camera worker stopped")
-
-    def _open_camera(self) -> Optional[cv2.VideoCapture]:
-        """Open camera with platform-specific backends."""
-        # Try different backends in order of preference
-        backends = []
-
-        import sys
-        if sys.platform == 'darwin':  # macOS
-            backends = [cv2.CAP_AVFOUNDATION, cv2.CAP_ANY]
-        elif sys.platform == 'win32':  # Windows
-            backends = [cv2.CAP_DSHOW, cv2.CAP_MSMF, cv2.CAP_ANY]
-        else:  # Linux
-            backends = [cv2.CAP_V4L2, cv2.CAP_ANY]
-
-        for backend in backends:
-            try:
-                cap = cv2.VideoCapture(self.camera_index, backend)
-                if cap.isOpened():
-                    # Set resolution
-                    cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.resolution[0])
-                    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.resolution[1])
-                    cap.set(cv2.CAP_PROP_FPS, self.target_fps)
-                    # Reduce buffer to minimize latency
-                    cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-                    logger.info(f"Opened camera with backend {backend}")
-                    return cap
-            except Exception as e:
-                logger.debug(f"Backend {backend} failed: {e}")
-                continue
-
-        return None
-
-    def _cleanup(self) -> None:
-        """Release camera resources."""
-        if self._cap is not None:
-            self._cap.release()
-            self._cap = None
-
-    @Slot()
     def stop(self) -> None:
-        """Stop the capture loop."""
+        """Stop the synthetic frame loop."""
         self._running = False
         self._mutex.lock()
         self._paused = False
         self._pause_condition.wakeAll()
         self._mutex.unlock()
-        self.wait(2000)  # Wait up to 2 seconds for thread to finish
+        self.wait(3000)
 
-    @Slot(bool)
-    def set_paused(self, paused: bool) -> None:
-        """Pause/resume capture."""
-        self._mutex.lock()
-        self._paused = paused
-        if not paused:
-            self._pause_condition.wakeAll()
-        self._mutex.unlock()
-
-    @Slot(bool)
-    def set_mirror(self, mirror: bool) -> None:
-        """Set mirror mode."""
-        self._mirror = mirror
-
-    @Slot(int)
-    def set_camera_index(self, index: int) -> None:
-        """Change camera index (requires restart)."""
-        self.camera_index = index
-
-    @Slot(object)
-    def set_camera_device(self, device) -> None:
-        """Change camera device (requires restart)."""
-        self._camera_device = device
-        # Use device index as fallback
-        self.camera_index = device.index if device else 0
-
-    @Slot(tuple)
-    def set_resolution(self, resolution: Tuple[int, int]) -> None:
-        """Change resolution (requires restart)."""
-        self.resolution = resolution
-
-    def get_available_cameras(self, max_test: int = 2) -> List[int]:
-        """Detect available camera indices."""
-        available = []
-        for i in range(max_test):
-            cap = cv2.VideoCapture(i, cv2.CAP_AVFOUNDATION if sys.platform == 'darwin' else cv2.CAP_ANY)
-            if cap.isOpened():
-                ret, _ = cap.read()
-                if ret:
-                    available.append(i)
-                cap.release()
-        return available
-
-    def get_camera_devices(self):
-        """Return named devices from Qt Multimedia, falling back to CV indices."""
-        devices = discover_camera_devices()
-        if devices:
-            return devices
-        return [type("FallbackCamera", (), {"index": index, "name": f"Camera {index}", "is_virtual": False})
-                for index in self.get_available_cameras(max_test=6)]
-
-
-class FakeCameraWorker(CameraWorker):
-    """
-    Fake camera for testing without a webcam.
-    Plays a recorded landmark sequence or generates synthetic frames.
-    """
-
-    def __init__(self, landmark_sequence: Optional[List[np.ndarray]] = None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.landmark_sequence = landmark_sequence or []
-        self._frame_idx = 0
-        self._synthetic_mode = landmark_sequence is None
-
-    def get_available_cameras(self, max_test: int = 5) -> List[int]:
-        """Return fake camera list for testing."""
-        return [-1]  # Fake camera index
+    def get_camera_devices(self) -> List[CameraDevice]:
+        return []
 
     def run(self) -> None:
         self._running = True
-        self.camera_started.emit(-1)  # Fake camera index
-
-        if self._synthetic_mode:
-            self._run_synthetic()
-        else:
-            self._run_sequence()
-
-        self.camera_stopped.emit()
-
-    def _run_synthetic(self) -> None:
-        """Generate synthetic frames with a moving hand-like pattern."""
-        import math
+        self.camera_started.emit("fake")
+        width, height = self.resolution
         frame_count = 0
         while self._running:
             self._mutex.lock()
             if self._paused:
                 self._pause_condition.wait(self._mutex)
             self._mutex.unlock()
-
             if not self._running:
                 break
 
-            # Create synthetic frame
-            frame = np.zeros((self.resolution[1], self.resolution[0], 3), dtype=np.uint8)
-            frame[:] = (30, 30, 40)  # Dark background
+            frame = np.zeros((height, width, 3), dtype=np.uint8)
+            frame[:] = (40, 30, 30)
 
-            # Draw a simple moving "hand" indicator
-            cx = int(self.resolution[0] // 2 + 100 * math.sin(frame_count * 0.05))
-            cy = int(self.resolution[1] // 2 + 50 * math.cos(frame_count * 0.03))
+            # A moving blob so the pipeline sees genuine motion, not a still frame.
+            cx = int(width // 2 + 100 * math.sin(frame_count * 0.05))
+            cy = int(height // 2 + 50 * math.cos(frame_count * 0.03))
             cv2.circle(frame, (cx, cy), 30, (100, 200, 100), -1)
-            cv2.putText(frame, "SYNTHETIC MODE", (20, 40),
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.8, (200, 200, 200), 2)
-            cv2.putText(frame, "No webcam detected", (20, 80),
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, (150, 150, 150), 1)
+            cv2.putText(
+                frame, "SYNTHETIC MODE", (20, 40),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (200, 200, 200), 2,
+            )
 
             if self._mirror:
                 frame = cv2.flip(frame, 1)
 
             self.frame_ready.emit(frame.copy())
             frame_count += 1
-            self.msleep(int(1000 / self.target_fps))
+            self.msleep(max(1, int(1000 / self.target_fps)))
 
-    def _run_sequence(self) -> None:
-        """Play back recorded landmark sequence as visual frames."""
-        # This would render landmarks to frames - simplified for now
-        self._run_synthetic()
+        self.camera_stopped.emit()

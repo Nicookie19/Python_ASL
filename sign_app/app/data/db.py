@@ -1148,6 +1148,19 @@ def export_user_data(user_id: int) -> Dict[str, Any]:
         return data
 
 
+def reset_user_progress(user_id: int) -> None:
+    """Clear learning records and badges while preserving the user and settings."""
+    with transaction() as conn:
+        user = conn.execute("SELECT 1 FROM users WHERE id = ?", (user_id,)).fetchone()
+        if user is None:
+            raise ValueError("User not found")
+        # Quiz questions are removed by the quiz_sessions foreign-key cascade.
+        conn.execute("DELETE FROM quiz_sessions WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM practice_attempts WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM user_progress WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM user_badges WHERE user_id = ?", (user_id,))
+
+
 def delete_user_data(user_id: int) -> None:
     """Delete all data for a user (GDPR/privacy compliance)."""
     with transaction() as conn:

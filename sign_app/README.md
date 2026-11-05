@@ -29,6 +29,7 @@ python sign_app/app/qml/main.py --demo
 - Ten-question description-to-sign knowledge quizzes with immediate feedback and a final score.
 - Persistent local learner profile, lesson coverage, practice time, streak and per-sign statistics.
 - Camera selection using stable device IDs, mirror preference, and saved light/dark theme.
+- Reset learning progress in Settings while keeping the learner profile and app preferences.
 - Keyboard navigation: Escape goes back; Left/Right select lesson signs; Space continues.
 
 Use Settings to change your learner name and camera preferences. The camera starts when entering practice and stops when leaving it. References remain usable without a working camera.

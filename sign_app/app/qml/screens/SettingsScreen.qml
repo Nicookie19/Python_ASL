@@ -13,6 +13,34 @@ Item {
     signal backRequested()
     Theme { id: theme; isDark: screen.darkMode }
     Rectangle { anchors.fill: parent; color: theme.background() }
+    Dialog {
+        id: resetConfirmation
+        title: "Reset learning progress?"
+        modal: true
+        anchors.centerIn: parent
+        standardButtons: Dialog.NoButton
+        contentItem: Label {
+            width: Math.min(screen.width - 64, 380)
+            wrapMode: Text.WordWrap
+            color: theme.text()
+            text: "This permanently clears completed lessons, practice attempts, quiz history, and earned badges for this learner. Your name and app settings are kept."
+            padding: 20
+        }
+        footer: DialogButtonBox {
+            alignment: Qt.AlignRight
+            Button { text: "Keep progress"; DialogButtonBox.buttonRole: DialogButtonBox.RejectRole }
+            Button {
+                text: "Reset progress"
+                highlighted: true
+                DialogButtonBox.buttonRole: DialogButtonBox.DestructiveRole
+                onClicked: {
+                    resetConfirmation.close()
+                    if (screen.pipeline) screen.pipeline.resetProgress()
+                }
+            }
+            onRejected: resetConfirmation.reject()
+        }
+    }
     ScrollView {
         anchors.fill: parent
         contentWidth: availableWidth
@@ -60,6 +88,24 @@ Item {
                     Button {
                         text: "Save preferences"; highlighted: true; Layout.preferredHeight: 46
                         onClicked: pipeline.saveSettings(nameField.text, cameraPicker.currentValue || "", mirror.checked, screen.darkMode ? "dark" : "light")
+                    }
+                }
+            }
+            Rectangle {
+                Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24
+                implicitHeight: resetContent.implicitHeight + 48
+                radius: 20; color: theme.surface(); border.color: theme.border()
+                ColumnLayout {
+                    id: resetContent
+                    anchors.fill: parent; anchors.margins: 24; spacing: 14
+                    Label { text: "LEARNING PROGRESS"; color: theme.accent(); font.bold: true }
+                    Label {
+                        Layout.fillWidth: true; wrapMode: Text.WordWrap; color: theme.textMuted()
+                        text: "Start your lessons over by clearing completed signs, practice history, quiz history, and earned badges. Your profile and settings stay saved."
+                    }
+                    Button {
+                        text: "Reset my progress"; Layout.preferredHeight: 46
+                        onClicked: resetConfirmation.open()
                     }
                 }
             }

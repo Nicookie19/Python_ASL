@@ -33,7 +33,8 @@ from app.content.loader import ContentPackLoader, initialize_content_packs
 from app.core.camera_service import CameraService
 from app.core.pipeline import CorePipeline, PipelineResult
 from app.data.db import (AttemptRepository, AttemptResult, PracticeAttempt,
-                         UserRepository, SettingsRepository, init_db, transaction)
+                         UserRepository, SettingsRepository, init_db, transaction,
+                         reset_user_progress)
 
 
 logger = logging.getLogger(__name__)
@@ -152,6 +153,23 @@ class QmlBridge(QObject):
         SettingsRepository.update(self._settings)
         self.settingsChanged.emit()
         self.statusChanged.emit("Settings saved.", "success")
+
+    @Slot(result=bool)
+    def resetProgress(self):
+        """Reset this learner's history without deleting profile preferences."""
+        try:
+            reset_user_progress(self._user.id)
+            self._quiz = []
+            self._quiz_answered.clear()
+            self._modules = self._build_modules()
+            self.modulesChanged.emit()
+            self.statsChanged.emit()
+            self.statusChanged.emit("Your learning progress has been reset.", "success")
+            return True
+        except Exception:
+            logger.exception("Failed to reset learner progress")
+            self.statusChanged.emit("Could not reset your progress. Please try again.", "error")
+            return False
 
     @Slot(bool)
     def setDarkMode(self, dark):

@@ -6,7 +6,8 @@
     "difficulty": "easy",
     "description": "Make a fist with thumb resting against the side of the index finger.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_a.png"
   },
   {
     "id": "asl_b",
@@ -15,7 +16,8 @@
     "difficulty": "easy",
     "description": "Hold fingers together and straight up, thumb tucked across palm.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_b.png"
   },
   {
     "id": "asl_c",
@@ -24,7 +26,8 @@
     "difficulty": "easy",
     "description": "Curve fingers and thumb into a C shape.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_c.png"
   },
   {
     "id": "asl_d",
@@ -33,7 +36,8 @@
     "difficulty": "easy",
     "description": "Index finger up, other fingers curled, thumb touching middle finger.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_d.png"
   },
   {
     "id": "asl_e",
@@ -42,7 +46,8 @@
     "difficulty": "easy",
     "description": "Fingers curled down, thumb tucked under fingertips.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_e.png"
   },
   {
     "id": "asl_f",
@@ -51,7 +56,8 @@
     "difficulty": "medium",
     "description": "Index finger and thumb touching in a circle, other fingers up.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_f.png"
   },
   {
     "id": "asl_g",
@@ -60,7 +66,8 @@
     "difficulty": "medium",
     "description": "Index finger and thumb extended sideways, other fingers curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_g.png"
   },
   {
     "id": "asl_h",
@@ -69,7 +76,8 @@
     "difficulty": "medium",
     "description": "Index and middle fingers extended sideways, thumb tucked.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_h.png"
   },
   {
     "id": "asl_i",
@@ -78,7 +86,8 @@
     "difficulty": "easy",
     "description": "Pinky finger up, other fingers curled, thumb tucked.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_i.png"
   },
   {
     "id": "asl_k",
@@ -87,7 +96,8 @@
     "difficulty": "medium",
     "description": "Index and middle fingers up in V, thumb between them.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_k.png"
   },
   {
     "id": "asl_l",
@@ -96,7 +106,8 @@
     "difficulty": "easy",
     "description": "Index finger and thumb extended in L shape, other fingers curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_l.png"
   },
   {
     "id": "asl_m",
@@ -105,7 +116,8 @@
     "difficulty": "medium",
     "description": "Thumb tucked under first three fingers.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_m.png"
   },
   {
     "id": "asl_n",
@@ -114,7 +126,8 @@
     "difficulty": "medium",
     "description": "Thumb tucked under first two fingers.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_n.png"
   },
   {
     "id": "asl_o",
@@ -123,7 +136,8 @@
     "difficulty": "easy",
     "description": "Fingers curved to touch thumb in O shape.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_o.png"
   },
   {
     "id": "asl_p",
@@ -132,7 +146,8 @@
     "difficulty": "medium",
     "description": "Like K but palm facing down, thumb between index and middle.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_p.png"
   },
   {
     "id": "asl_q",
@@ -141,7 +156,8 @@
     "difficulty": "medium",
     "description": "Like G but palm facing down.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_q.png"
   },
   {
     "id": "asl_r",
@@ -150,7 +166,8 @@
     "difficulty": "medium",
     "description": "Index and middle fingers crossed, others curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_r.png"
   },
   {
     "id": "asl_s",
@@ -159,7 +176,8 @@
     "difficulty": "easy",
     "description": "Fist with thumb over fingers.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_s.png"
   },
   {
     "id": "asl_t",
@@ -168,7 +186,8 @@
     "difficulty": "medium",
     "description": "Thumb tucked between index and middle fingers, fist.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_t.png"
   },
   {
     "id": "asl_u",
@@ -177,7 +196,8 @@
     "difficulty": "easy",
     "description": "Index and middle fingers up together, others curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_u.png"
   },
   {
     "id": "asl_v",
@@ -186,7 +206,8 @@
     "difficulty": "easy",
     "description": "Index and middle fingers in V shape.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_v.png"
   },
   {
     "id": "asl_w",
@@ -195,7 +216,8 @@
     "difficulty": "medium",
     "description": "Index, middle, ring fingers up in W shape.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_w.png"
   },
   {
     "id": "asl_x",
@@ -204,7 +226,8 @@
     "difficulty": "medium",
     "description": "Index finger hooked, others curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_x.png"
   },
   {
     "id": "asl_y",
@@ -213,7 +236,8 @@
     "difficulty": "easy",
     "description": "Thumb and pinky extended, other fingers curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_y.png"
   },
   {
     "id": "asl_j",
@@ -225,7 +249,8 @@
     "handedness": "both",
     "metadata": {
       "motion_sign": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_j.png"
   },
   {
     "id": "asl_z",
@@ -237,7 +262,8 @@
     "handedness": "both",
     "metadata": {
       "motion_sign": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_z.png"
   },
   {
     "id": "asl_0",
@@ -246,7 +272,8 @@
     "difficulty": "easy",
     "description": "Fingers curved to form O shape (same as O).",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_0.png"
   },
   {
     "id": "asl_1",
@@ -255,7 +282,8 @@
     "difficulty": "easy",
     "description": "Index finger up, others curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_1.png"
   },
   {
     "id": "asl_2",
@@ -264,7 +292,8 @@
     "difficulty": "easy",
     "description": "Index and middle fingers up.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_2.png"
   },
   {
     "id": "asl_3",
@@ -273,7 +302,8 @@
     "difficulty": "easy",
     "description": "Thumb, index, middle up (like 3).",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_3.png"
   },
   {
     "id": "asl_4",
@@ -282,7 +312,8 @@
     "difficulty": "easy",
     "description": "Four fingers up, thumb tucked.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_4.png"
   },
   {
     "id": "asl_5",
@@ -291,7 +322,8 @@
     "difficulty": "easy",
     "description": "All five fingers spread.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_5.png"
   },
   {
     "id": "asl_6",
@@ -300,7 +332,8 @@
     "difficulty": "medium",
     "description": "Pinky, ring, middle up; index and thumb touching.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_6.png"
   },
   {
     "id": "asl_7",
@@ -309,7 +342,8 @@
     "difficulty": "medium",
     "description": "Ring, middle, index up; pinky and thumb touching.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_7.png"
   },
   {
     "id": "asl_8",
@@ -318,7 +352,8 @@
     "difficulty": "medium",
     "description": "Middle, index, thumb up; pinky and ring curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_8.png"
   },
   {
     "id": "asl_9",
@@ -327,7 +362,8 @@
     "difficulty": "medium",
     "description": "Index up, thumb and pinky touching, others curled.",
     "scored": true,
-    "handedness": "both"
+    "handedness": "both",
+    "image": "assets/signs/asl/dark/asl_9.png"
   },
   {
     "id": "asl_hello",
@@ -340,7 +376,8 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_hello.png"
   },
   {
     "id": "asl_goodbye",
@@ -353,7 +390,8 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_goodbye.png"
   },
   {
     "id": "asl_thank_you",
@@ -366,7 +404,8 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_thank_you.png"
   },
   {
     "id": "asl_please",
@@ -379,7 +418,8 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_please.png"
   },
   {
     "id": "asl_sorry",
@@ -392,7 +432,8 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_sorry.png"
   },
   {
     "id": "asl_hospital",
@@ -405,7 +446,8 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_hospital.png"
   },
   {
     "id": "asl_help",
@@ -418,7 +460,8 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_help.png"
   },
   {
     "id": "asl_yes",
@@ -431,7 +474,8 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_yes.png"
   },
   {
     "id": "asl_no",
@@ -444,6 +488,7 @@
     "metadata": {
       "motion_sign": true,
       "phrase": true
-    }
+    },
+    "image": "assets/signs/asl/dark/asl_no.png"
   }
 ]

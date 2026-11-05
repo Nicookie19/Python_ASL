@@ -273,6 +273,25 @@ ASL_POSES: Dict[str, HandPose] = {
     # Z: index extended, held in the Z start position (the sign itself is motion).
     "Z": _pose(curl=(0.0, 1.0, 1.0, 1.0), thumb_angle=-0.20, thumb_curl=0.50,
                thumb_shift=(0.020, 0.010)),
+    # --- Greetings / Phrases (static reference poses) ---------------------------
+    # Hello: flat hand at temple, palm out (wave motion - static reference)
+    "HELLO": _pose(curl=(0.0, 0.0, 0.0, 0.0), spread=0.3, thumb_angle=-0.34, thumb_curl=0.28, rotation=0.3),
+    # Goodbye: flat hand waving (wave motion - static reference)
+    "GOODBYE": _pose(curl=(0.0, 0.0, 0.0, 0.0), spread=0.3, thumb_angle=-0.34, thumb_curl=0.28, rotation=-0.3),
+    # Thank You: fingertips touch chin, then move forward (static: at chin)
+    "THANK YOU": _pose(curl=(0.3, 0.3, 0.3, 0.3), thumb_angle=-1.0, thumb_curl=0.3, thumb_shift=(0.0, -0.1), rotation=0.5),
+    # Please: flat hand circles on chest (static: flat hand)
+    "PLEASE": _pose(curl=(0.0, 0.0, 0.0, 0.0), spread=0.2, thumb_angle=-0.34, thumb_curl=0.28, rotation=0.4),
+    # Sorry: fist circles on chest (static: fist)
+    "SORRY": _pose(curl=(1.0, 1.0, 1.0, 1.0), thumb_angle=-0.16, thumb_curl=0.46),
+    # Hospital: H sign taps arm (static: H handshape)
+    "HOSPITAL": _pose(curl=(0.0, 0.0, 1.0, 1.0), spread=0.08, rotation=0.52),
+    # Help: fist on flat hand (static: fist + flat hand - show fist)
+    "HELP": _pose(curl=(1.0, 1.0, 1.0, 1.0), thumb_angle=-0.16, thumb_curl=0.46),
+    # Yes: fist nods (static: fist)
+    "YES": _pose(curl=(1.0, 1.0, 1.0, 1.0), thumb_angle=-0.16, thumb_curl=0.46),
+    # No: index and middle tap thumb (static: index+middle extended, thumb ready)
+    "NO": _pose(curl=(0.0, 0.0, 1.0, 1.0), thumb_angle=-0.92, thumb_curl=0.5, thumb_shift=(-0.02, 0.02)),
     # --- Numbers ------------------------------------------------------------
     "0": _pose(curl=(0.70, 0.75, 0.78, 0.80), thumb_angle=-1.02, thumb_curl=0.34),
     "1": _pose(curl=(0.0, 1.0, 1.0, 1.0), thumb_angle=-0.34, thumb_curl=0.40),

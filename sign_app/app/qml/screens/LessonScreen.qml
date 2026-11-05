@@ -19,8 +19,14 @@ Item {
     property int successCount: 0
     property int requiredHoldMs: 800
     property bool isCorrect: false
+    property bool _wasCorrect: false
     property bool lessonComplete: false
-    property int holdStartedAt: 0
+    property double holdStartedAt: 0
+    property double signStartedAt: 0
+    property double lastResultAt: 0
+    property int lastInferenceFrame: -1
+    property bool attemptSaved: false
+    readonly property bool autoScored: currentSign && currentSign.canScore
     property var pipelineResult: null
     property string cameraImageSource: ""
     property string statusText: "Choose a sign to begin"
@@ -31,7 +37,7 @@ Item {
         { "id": "asl_b", "label": "B", "difficulty": "Starter", "description": "Hold all four fingers together and upright, with your thumb folded across the palm.", "tip": "Keep the fingers straight and touching." },
         { "id": "asl_c", "label": "C", "difficulty": "Starter", "description": "Curve your fingers and thumb to make a relaxed C shape.", "tip": "Leave a clear space between fingertips." }
     ]
-    readonly property var activeSigns: signs && signs.length ? signs : sampleSigns
+    readonly property var activeSigns: signs
     readonly property var currentSign: activeSigns.length > 0
                                        ? activeSigns[Math.min(currentSignIndex, activeSigns.length - 1)] : null
     readonly property real lessonProgress: activeSigns.length > 0
@@ -67,6 +73,11 @@ Item {
 
     function applyCurrentSign() {
         if (!currentSign) return
+        pipelineResult = null
+        attemptSaved = false
+        _wasCorrect = false
+        signStartedAt = Date.now()
+        lastInferenceFrame = -1
         isCorrect = false
         holdStartedAt = 0
         holdTimer.stop()
@@ -91,17 +102,35 @@ Item {
     }
 
     function goPrevious() {
-        if (currentSignIndex <= 0) return
+        if (lessonComplete || currentSignIndex <= 0) return
         currentSignIndex--
         applyCurrentSign()
         previousRequested(currentSignIndex)
     }
 
+    function saveCurrent(reviewed) {
+        if (attemptSaved || !currentSign || !pipeline) return
+        var module = currentModule ? currentModule.id : ""
+        var elapsed = Math.min(3600000, Date.now() - signStartedAt)
+        if (reviewed) pipeline.markReviewed(currentSign.id, module, elapsed)
+        else {
+            var rec = pipelineResult ? pipelineResult.recognition : null
+            pipeline.saveAttempt(currentSign.id, module, true, rec ? rec.confidence : 0,
+                                 rec ? rec.label : currentSign.label, elapsed)
+        }
+        attemptSaved = true
+    }
+
     function goNext() {
+        if (lessonComplete) { goBack(); return }
+        if (!activeSigns.length) return
+        holdTimer.stop()
+        if (!autoScored) saveCurrent(true)
         if (currentSignIndex >= activeSigns.length - 1) {
             lessonComplete = true
-            statusText = "Lesson complete — excellent work!"
+            statusText = "Session complete · " + successCount + " signs recognized. Reviewed signs are saved separately."
             statusState = "success"
+            pipeline.stopPractice()
             return
         }
         currentSignIndex++
@@ -110,27 +139,27 @@ Item {
     }
 
     function handleInferenceResult(result) {
+        if (lessonComplete || !result || !currentSign || result.target_sign_id !== currentSign.id) return
         pipelineResult = result
-        if (!result || !currentSign || !result.recognition) return
-
-        var predicted = result.recognition.label || ""
-        var confidence = result.recognition.confidence || 0
-        var reliable = result.recognition.is_reliable === undefined
-                       ? confidence >= 0.65 : result.recognition.is_reliable
-        if (predicted.toUpperCase() === currentSign.label.toUpperCase() && reliable) {
-            if (!isCorrect) {
-                isCorrect = true
-                holdStartedAt = Date.now()
-                statusText = "Great shape — hold it steady"
-                statusState = "success"
-                holdTimer.start()
-            }
-        } else if (isCorrect) {
+        var frameNumber = result.inference_frame_number
+        if (!autoScored || frameNumber === undefined || frameNumber === null || frameNumber === lastInferenceFrame) return
+        lastInferenceFrame = Number(frameNumber)
+        lastResultAt = Date.now()
+        var rec = result.recognition
+        var correct = result.hands && result.hands.length && rec && rec.is_reliable &&
+                      rec.label.toUpperCase() === currentSign.label.toUpperCase()
+        if (correct) {
+            if (!isCorrect) holdStartedAt = Date.now()
+            isCorrect = true
+            statusText = "Good match — hold steady"
+            statusState = "success"
+            holdTimer.start()
+        } else {
             isCorrect = false
+            holdStartedAt = 0
             holdTimer.stop()
-            attemptCount++
-            statusText = "Almost there — reset and try “" + currentSign.label + "”"
-            statusState = "warning"
+            statusText = result.hands && result.hands.length ? "Adjust your hand to match “" + currentSign.label + "”" : "Place one hand fully in the camera view"
+            statusState = "info"
         }
     }
 
@@ -139,20 +168,25 @@ Item {
         interval: 40
         repeat: true
         onTriggered: {
-            if (!lessonScreen.isCorrect) {
+            if (!lessonScreen.isCorrect || Date.now() - lessonScreen.lastResultAt > 350) {
+                lessonScreen.isCorrect = false
+                lessonScreen.holdStartedAt = 0
                 stop()
                 return
             }
             if (Date.now() - lessonScreen.holdStartedAt >= lessonScreen.requiredHoldMs) {
                 stop()
-                lessonScreen.isCorrect = false
+                lessonScreen.saveCurrent(false)
                 lessonScreen.successCount++
-                lessonScreen.attemptCount++
-                lessonScreen.statusText = "Perfect — “" + lessonScreen.currentSign.label + "” is complete"
-                lessonScreen.statusState = "success"
+                lessonScreen.goNext()
             }
         }
     }
+
+    StackView.onRemoved: { if (pipeline) pipeline.stopPractice() }
+    Shortcut { sequence: "Right"; onActivated: lessonScreen.goNext() }
+    Shortcut { sequence: "Left"; onActivated: lessonScreen.goPrevious() }
+    Shortcut { sequence: "Space"; onActivated: lessonScreen.goNext() }
 
     Connections {
         // `bridge` is supplied by app/qml/main.py when this screen is hosted
@@ -162,6 +196,7 @@ Item {
             lessonScreen.handleInferenceResult(result)
         }
         function onStatusChanged(message, state) {
+            if (lessonScreen.lessonComplete) return
             lessonScreen.statusText = message
             lessonScreen.statusState = state
         }
@@ -172,9 +207,17 @@ Item {
         color: theme.background()
     }
 
-    ColumnLayout {
+    ScrollView {
         anchors.fill: parent
-        anchors.margins: theme.space5
+        clip: true
+        contentWidth: availableWidth
+        contentHeight: Math.max(700, availableHeight)
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+    ColumnLayout {
+        x: theme.space5
+        y: theme.space5
+        width: lessonScreen.width - theme.space5 * 2
+        height: Math.max(700, lessonScreen.height) - theme.space5 * 2
         spacing: theme.space5
 
         RowLayout {
@@ -268,6 +311,7 @@ Item {
                         imageSource: lessonScreen.cameraImageSource
                         hands: pipelineResult && pipelineResult.hands ? pipelineResult.hands : []
                         targetLandmarks: pipelineResult ? pipelineResult.target_landmarks : null
+                        checkResult: pipelineResult && pipelineResult.check_result ? pipelineResult.check_result : null
                         darkMode: lessonScreen.darkMode
                         statusText: lessonScreen.statusText
                         statusState: lessonScreen.statusState
@@ -278,7 +322,7 @@ Item {
                     RowLayout {
                         Layout.fillWidth: true
                         Text {
-                            text: pipelineResult && pipelineResult.confidence_meter
+                            text: !autoScored ? "Self-guided practice" : pipelineResult && pipelineResult.confidence_meter
                                   ? "Recognition confidence"
                                   : "Tracker is ready"
                             color: theme.textMuted()
@@ -287,7 +331,7 @@ Item {
                         }
                         Item { Layout.fillWidth: true }
                         Text {
-                            text: pipelineResult && pipelineResult.confidence_meter
+                            text: !autoScored ? "Review at your pace" : pipelineResult && pipelineResult.confidence_meter
                                   ? Math.round((pipelineResult.confidence_meter[1] || 0) * 100) + "%"
                                   : "Waiting for hand"
                             color: pipelineResult && pipelineResult.hands && pipelineResult.hands.length
@@ -333,7 +377,7 @@ Item {
                         }
                         Item { Layout.fillWidth: true }
                         Text {
-                            text: "Attempts " + attemptCount
+                            text: autoScored ? "Recognized " + successCount : "Self-guided"
                             color: theme.textMuted()
                             font.family: theme.fontFamily
                             font.pixelSize: theme.textXs
@@ -352,7 +396,16 @@ Item {
                             targetLandmarks: pipelineResult ? pipelineResult.target_landmarks : null
                             darkMode: lessonScreen.darkMode
                             label: currentSign ? currentSign.label : ""
+                            imageSource: currentSign && currentSign.image ? currentSign.image : ""
                             mirror: cameraView.mirror
+                            status: pipelineResult && pipelineResult.check_result ?
+                                (pipelineResult.check_result.is_correct ? "Correct!" :
+                                 (pipelineResult.check_result.hint ? pipelineResult.check_result.hint : "Adjust hand"))
+                                : ""
+                            statusState: pipelineResult && pipelineResult.check_result ?
+                                (pipelineResult.check_result.is_correct ? "success" : "warning")
+                                : "info"
+                            holdProgress: pipelineResult && pipelineResult.check_result && !pipelineResult.check_result.is_correct ? 0.5 : 0
                         }
                     }
 
@@ -417,7 +470,7 @@ Item {
                         Button {
                             id: nextButton
                             Layout.fillWidth: true
-                            text: lessonComplete ? "Back to lessons" : currentSignIndex === activeSigns.length - 1 ? "Finish lesson" : "Next sign  ›"
+                            text: lessonComplete ? "Back to lessons" : !autoScored ? "Mark reviewed  ›" : "Skip sign  ›"
                             Layout.preferredHeight: 48
                             onClicked: lessonComplete ? lessonScreen.goBack() : lessonScreen.goNext()
                             background: Rectangle {
@@ -452,4 +505,5 @@ Item {
         }
     }
 
+    }
 }

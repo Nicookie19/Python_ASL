@@ -15,7 +15,7 @@ from enum import Enum
 import threading
 
 
-SCHEMA_VERSION = 6
+SCHEMA_VERSION = 7
 
 
 class UserRole(Enum):
@@ -64,6 +64,7 @@ class Sign:
     scored: bool
     handedness: str  # "right", "left", "both"
     reference_landmarks: Optional[List[float]] = None  # Flattened 21*3 landmarks
+    image: Optional[str] = None  # Path to reference image asset
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
@@ -209,6 +210,11 @@ _thread_local = threading.local()
 
 def get_thread_connection() -> sqlite3.Connection:
     """Get a thread-local database connection."""
+    if getattr(_thread_local, 'path', None) != get_db_path():
+        if getattr(_thread_local, 'conn', None) is not None:
+            _thread_local.conn.close()
+        _thread_local.conn = None
+        _thread_local.path = get_db_path()
     if not hasattr(_thread_local, 'conn') or _thread_local.conn is None:
         _thread_local.conn = get_connection()
     return _thread_local.conn
@@ -264,6 +270,16 @@ def init_db() -> None:
             _migrate_v5_to_v6(conn)
             current_version = 6
 
+        if current_version == 6:
+            _migrate_v6_to_v7(conn)
+            current_version = 7
+
+        # Repair databases stamped v7 by the previously skipped v5 migration.
+        if current_version <= SCHEMA_VERSION:
+            _migrate_v5_to_v6(conn)
+            _migrate_v6_to_v7(conn)
+        else:
+            raise RuntimeError("This database was created by a newer app version.")
         conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
         conn.commit()
     finally:
@@ -499,6 +515,15 @@ def _migrate_v5_to_v6(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE app_settings ADD COLUMN reduced_motion INTEGER NOT NULL DEFAULT 0")
 
 
+def _migrate_v6_to_v7(conn: sqlite3.Connection) -> None:
+    """Add image column to signs table for reference image paths."""
+    cursor = conn.execute("PRAGMA table_info(signs)")
+    columns = [row[1] for row in cursor.fetchall()]
+
+    if "image" not in columns:
+        conn.execute("ALTER TABLE signs ADD COLUMN image TEXT")
+
+
 # Repository classes for data access
 
 class UserRepository:
@@ -606,8 +631,8 @@ class SignRepository:
         with transaction() as conn:
             landmarks_json = json.dumps(sign.reference_landmarks) if sign.reference_landmarks else None
             conn.execute("""
-                INSERT INTO signs (id, label, category, difficulty, description, scored, handedness, reference_landmarks, metadata)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO signs (id, label, category, difficulty, description, scored, handedness, reference_landmarks, metadata, image)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     label = excluded.label,
                     category = excluded.category,
@@ -616,16 +641,18 @@ class SignRepository:
                     scored = excluded.scored,
                     handedness = excluded.handedness,
                     reference_landmarks = excluded.reference_landmarks,
-                    metadata = excluded.metadata
+                    metadata = excluded.metadata,
+                    image = excluded.image
             """, (
                 sign.id, sign.label, sign.category.value, sign.difficulty.value,
                 sign.description, int(sign.scored), sign.handedness,
-                landmarks_json, json.dumps(sign.metadata)
+                landmarks_json, json.dumps(sign.metadata), sign.image
             ))
 
     @staticmethod
     def _row_to_sign(row: sqlite3.Row) -> Sign:
         landmarks = json.loads(row['reference_landmarks']) if row['reference_landmarks'] else None
+        image = row['image'] if 'image' in row.keys() else None
         return Sign(
             id=row['id'],
             label=row['label'],
@@ -635,6 +662,7 @@ class SignRepository:
             scored=bool(row['scored']),
             handedness=row['handedness'],
             reference_landmarks=landmarks,
+            image=image,
             metadata=json.loads(row['metadata'])
         )
 

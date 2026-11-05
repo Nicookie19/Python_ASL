@@ -181,6 +181,9 @@ class FakeCameraWorker(QThread):
         self._pause_condition = QWaitCondition()
         self._paused = False
 
+    def set_mirror(self, mirror: bool) -> None:
+        self._mirror = mirror
+
     def get_available_cameras(self, max_test: int = 5) -> List[int]:
         return [-1]
 

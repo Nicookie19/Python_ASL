@@ -137,6 +137,7 @@ class ContentPackLoader:
                     reference_landmarks=_resolve_reference_landmarks(
                         sign_data.get("reference_landmarks"), sign_data["label"]
                     ),
+                    image=sign_data.get("image"),
                     metadata=sign_data.get("metadata", {})
                 )
                 pack.signs[sign.id] = sign
@@ -159,9 +160,11 @@ class ContentPackLoader:
                 pack.modules[module.id] = module
 
         # Model and template paths
-        model_path = pack_dir / "model" / "model.joblib"
-        if model_path.exists():
-            pack.model_path = model_path
+        for name in ("model", "recognizer"):
+            model_path = pack_dir / "model" / (name + ".joblib")
+            if model_path.exists() and model_path.with_suffix(".json").exists():
+                pack.model_path = model_path
+                break
 
         labels_path = pack_dir / "model" / "labels.json"
         if labels_path.exists():
@@ -331,6 +334,8 @@ def create_default_asl_pack(packs_dir: Path) -> None:
 
 def initialize_content_packs(packs_dir: Path) -> ContentPackLoader:
     """Initialize content packs, creating defaults if needed."""
+    packs_dir = Path(packs_dir)
+    packs_dir.mkdir(parents=True, exist_ok=True)
     loader = ContentPackLoader(packs_dir)
 
     # Create default ASL pack if no packs exist or if ASL pack is missing files

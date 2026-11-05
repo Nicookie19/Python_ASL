@@ -1,445 +1,467 @@
 #!/usr/bin/env python3
 """
-Training Tool for Sign Language Classifier.
-Loads collected landmark data, trains a classifier, evaluates, and exports model.
-Run: python tools/train_model.py
+Train the ASL sign recognition model from collected samples.
+
+- Loads samples from data/samples/asl/*.csv
+- Trains sklearn models (RF, SVM, KNN, MLP) with cross-validation
+- Computes per-sign reference data (median landmarks, finger states, angles, tolerances)
+- Saves model to content_packs/asl/model/model.joblib + labels.json
+- Updates content_packs/asl/signs.json with reference data and reference_source: "recorded"
+
+Usage:
+    python -m tools.train_model [--model-type TYPE] [--output-dir DIR] [--min-samples N]
 """
 
-import sys
-import json
 import argparse
+import csv
+import json
+import logging
+import sys
+import warnings
 from pathlib import Path
-from typing import List, Tuple, Dict, Optional
+from typing import Dict, List, Tuple, Optional, Any
 
 import numpy as np
 import joblib
-from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import (
-    classification_report, confusion_matrix, accuracy_score,
-    precision_recall_fscore_support
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from app.core.recognizer import StaticRecognizer, StaticRecognizerConfig, create_recognizer
+from app.core.features import FeatureExtractor
+from app.content.loader import initialize_content_packs
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+logger = logging.getLogger(__name__)
+
+warnings.filterwarnings("ignore", category=UserWarning)
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SAMPLE_DIR = PROJECT_ROOT / "data/samples/asl"
+MODEL_DIR = PROJECT_ROOT / "content_packs/asl/model"
+
+FEATURE_EXTRACTOR = FeatureExtractor(
+    mirror_left_to_right=True,
+    use_3d=True,
+    include_angles=True,
+    include_distances=True
 )
 
-import matplotlib
-matplotlib.use('Agg')  # Non-interactive backend
-import matplotlib.pyplot as plt
-import seaborn as sns
+LANDMARK_INDEX = {
+    "WRIST": 0,
+    "THUMB_CMC": 1, "THUMB_MCP": 2, "THUMB_IP": 3, "THUMB_TIP": 4,
+    "INDEX_MCP": 5, "INDEX_PIP": 6, "INDEX_DIP": 7, "INDEX_TIP": 8,
+    "MIDDLE_MCP": 9, "MIDDLE_PIP": 10, "MIDDLE_DIP": 11, "MIDDLE_TIP": 12,
+    "RING_MCP": 13, "RING_PIP": 14, "RING_DIP": 15, "RING_TIP": 16,
+    "PINKY_MCP": 17, "PINKY_PIP": 18, "PINKY_DIP": 19, "PINKY_TIP": 20,
+}
 
-# Add project root to path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
+FINGER_CHAINS = {
+    "thumb": (4, 3, 2),
+    "index": (8, 6, 5),
+    "middle": (12, 10, 9),
+    "ring": (16, 14, 13),
+    "pinky": (20, 18, 17),
+}
 
-from app.core.features import FeatureExtractor, DataAugmentation, normalize_features, save_feature_stats
-from app.core.recognizer import StaticRecognizer, StaticRecognizerConfig
+FINGER_NAMES = ["thumb", "index", "middle", "ring", "pinky"]
 
 
-class ModelTrainer:
-    """Trains and evaluates sign language classifier."""
+def load_samples(sample_dir: Path, min_samples: int = 5) -> Tuple[np.ndarray, np.ndarray, Dict[str, List[np.ndarray]], Dict[str, List[Dict]], Dict[str, List[Dict]]]:
+    """
+    Load all samples from CSV files.
+    Returns: X (features), y (labels), raw_landmarks_by_sign, finger_states_by_sign, angles_by_sign
+    """
+    X_list = []
+    y_list = []
+    raw_landmarks_by_sign = {}
+    finger_states_by_sign = {}
+    angles_by_sign = {}
 
-    def __init__(
-        self,
-        data_dir: Path,
-        model_dir: Path,
-        model_type: str = "random_forest",
-        test_split: float = 0.2,
-        augment: bool = True,
-        random_state: int = 42
-    ):
-        self.data_dir = Path(data_dir)
-        self.model_dir = Path(model_dir)
-        self.model_dir.mkdir(parents=True, exist_ok=True)
+    csv_files = list(sample_dir.glob("*.csv"))
+    if not csv_files:
+        logger.warning(f"No CSV files found in {sample_dir}")
+        return np.array([]), np.array([]), {}, {}, {}
 
-        self.model_type = model_type
-        self.test_split = test_split
-        self.augment = augment
-        self.random_state = random_state
+    logger.info(f"Found {len(csv_files)} sign sample files")
 
-        self.extractor = FeatureExtractor()
-        self.augmenter = DataAugmentation() if augment else None
+    for csv_path in csv_files:
+        sign_id = csv_path.stem
+        landmarks_list = []
+        states_list = []
+        angles_list = []
 
-        self.X_train = None
-        self.X_test = None
-        self.y_train = None
-        self.y_test = None
-        self.classes = None
-        self.feature_mean = None
-        self.feature_std = None
+        with open(csv_path, "r") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                try:
+                    landmarks = np.array(json.loads(row["landmarks"]), dtype=np.float32).reshape(21, 3)
+                    finger_states = json.loads(row["finger_states"])
+                    joint_angles = json.loads(row["joint_angles"])
 
-    def load_data(self, csv_files: Optional[List[Path]] = None) -> Tuple[np.ndarray, np.ndarray]:
-        """Load landmark data from CSV files."""
-        if csv_files is None:
-            csv_files = list(self.data_dir.glob("landmarks_*.csv"))
+                    landmarks_list.append(landmarks)
+                    states_list.append(finger_states)
+                    angles_list.append(joint_angles)
+                except Exception as e:
+                    logger.warning(f"Skipping malformed row in {sign_id}: {e}")
+                    continue
 
-        if not csv_files:
-            raise FileNotFoundError(f"No CSV files found in {self.data_dir}")
+        if len(landmarks_list) < min_samples:
+            logger.warning(f"[{sign_id}] Only {len(landmarks_list)} samples (min {min_samples}), skipping")
+            continue
 
-        print(f"Loading data from {len(csv_files)} file(s)...")
-
-        all_features = []
-        all_labels = []
-
-        for csv_path in csv_files:
-            print(f"  Reading {csv_path.name}...")
-            data = np.genfromtxt(csv_path, delimiter=',', skip_header=1, dtype=str)
-
-            if data.size == 0:
-                continue
-
-            # Columns: session_id, person_id, timestamp, label, x0...z20, handedness, hand_confidence
-            labels = data[:, 3]
-            landmarks = data[:, 4:67].astype(np.float32)  # 63 landmark coords
-            handedness = data[:, 67]
-
-            # Reconstruct hand landmarks for feature extraction
-            for i in range(len(labels)):
-                label = labels[i]
-                lm = landmarks[i].reshape(21, 3)
-                hand = handedness[i]
-
-                # Create a mock hand object for feature extraction
-                from app.core.hand_tracker import HandLandmarks, Handedness
-                hand_obj = HandLandmarks(
-                    landmarks=lm,
-                    handedness=Handedness(hand),
-                    confidence=1.0,
-                    image_width=640,
-                    image_height=480
-                )
-
-                features = self.extractor.extract(hand_obj)
-                all_features.append(features.features)
-                all_labels.append(label)
-
-        X = np.array(all_features)
-        y = np.array(all_labels)
-
-        print(f"Loaded {len(X)} samples with {X.shape[1]} features")
-        print(f"Classes: {sorted(set(y))}")
-
-        return X, y
-
-    def prepare_data(self, X: np.ndarray, y: np.ndarray):
-        """Split and normalize data."""
-        # Split by session/person if possible to avoid data leakage
-        # For now, use stratified split
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
-            X, y, test_size=self.test_split, stratify=y, random_state=self.random_state
-        )
-
-        # Normalize
-        self.X_train, self.feature_mean, self.feature_std = normalize_features(self.X_train)
-        self.X_test = (self.X_test - self.feature_mean) / (self.feature_std + 1e-8)
-
-        self.classes = sorted(np.unique(y))
-
-        print(f"Train: {len(self.X_train)}, Test: {len(self.X_test)}")
-        print(f"Classes ({len(self.classes)}): {self.classes}")
-
-        # Augment training data
-        if self.augment and self.augmenter:
-            print("Applying data augmentation...")
-            X_aug, y_aug = self.augmenter.augment_batch(
-                self.X_train, self.y_train, self.extractor, n_augment=2
+        # Extract features for each sample
+        for landmarks in landmarks_list:
+            # Create a mock HandLandmarks for feature extraction
+            from app.core.hand_tracker import HandLandmarks, Handedness
+            mock_hand = HandLandmarks(
+                landmarks=landmarks,
+                handedness=Handedness.RIGHT,  # Already normalized/mirrored
+                confidence=1.0,
+                image_width=640,
+                image_height=480
             )
-            self.X_train = X_aug
-            self.y_train = y_aug
-            print(f"Augmented train size: {len(self.X_train)}")
+            feature_vec = FEATURE_EXTRACTOR.extract(mock_hand)
+            X_list.append(feature_vec.features)
+            y_list.append(sign_id)
 
-    def create_model(self):
-        """Create the classifier based on model_type."""
-        if self.model_type == "random_forest":
-            return RandomForestClassifier(
-                n_estimators=300,
-                max_depth=None,
-                min_samples_split=5,
-                min_samples_leaf=2,
-                n_jobs=-1,
-                random_state=self.random_state,
-                class_weight="balanced"
-            )
-        elif self.model_type == "svm":
-            return SVC(
+        raw_landmarks_by_sign[sign_id] = landmarks_list
+        finger_states_by_sign[sign_id] = states_list
+        angles_by_sign[sign_id] = angles_list
+
+        logger.info(f"  [{sign_id}] Loaded {len(landmarks_list)} samples")
+
+    if not X_list:
+        return np.array([]), np.array([]), {}, {}, {}
+
+    X = np.vstack(X_list)
+    y = np.array(y_list)
+
+    logger.info(f"Total samples: {len(y)}, Feature dim: {X.shape[1]}")
+    logger.info(f"Classes: {sorted(set(y))}")
+
+    return X, y, raw_landmarks_by_sign, finger_states_by_sign, angles_by_sign
+
+
+def compute_reference_data(
+    landmarks_list: List[np.ndarray],
+    finger_states_list: List[Dict[str, str]],
+    angles_list: List[Dict[str, float]]
+) -> Dict[str, Any]:
+    """Compute median landmarks, finger state consensus, angle statistics, and tolerances."""
+    if not landmarks_list:
+        return {}
+
+    # Median landmarks (21, 3)
+    landmarks_stack = np.stack(landmarks_list)  # (N, 21, 3)
+    median_landmarks = np.median(landmarks_stack, axis=0)
+    std_landmarks = np.std(landmarks_stack, axis=0)
+
+    # Finger state consensus
+    finger_consensus = {}
+    for finger in FINGER_NAMES:
+        states = [s.get(finger, "unknown") for s in finger_states_list]
+        # Most common state
+        state_counts = {}
+        for s in states:
+            state_counts[s] = state_counts.get(s, 0) + 1
+        consensus = max(state_counts, key=state_counts.get)
+        confidence = state_counts[consensus] / len(states)
+        finger_consensus[finger] = {
+            "state": consensus,
+            "confidence": confidence,
+            "distribution": state_counts
+        }
+
+    # Angle statistics
+    angle_stats = {}
+    all_angle_names = set()
+    for a in angles_list:
+        all_angle_names.update(a.keys())
+
+    for angle_name in sorted(all_angle_names):
+        values = [a.get(angle_name, 0.0) for a in angles_list if angle_name in a]
+        if values:
+            angle_stats[angle_name] = {
+                "median": float(np.median(values)),
+                "mean": float(np.mean(values)),
+                "std": float(np.std(values)),
+                "min": float(np.min(values)),
+                "max": float(np.max(values)),
+                "count": len(values)
+            }
+
+    # Per-landmark tolerances (2 std deviations, minimum threshold)
+    landmark_tolerances = np.maximum(std_landmarks * 2.0, 0.02)  # At least 0.02 normalized units
+
+    return {
+        "median_landmarks": median_landmarks.tolist(),
+        "landmark_std": std_landmarks.tolist(),
+        "landmark_tolerances": landmark_tolerances.tolist(),
+        "finger_states": finger_consensus,
+        "joint_angles": angle_stats,
+        "sample_count": len(landmarks_list)
+    }
+
+
+def train_and_evaluate_models(X: np.ndarray, y: np.ndarray) -> Tuple[Any, Dict[str, Any]]:
+    """Train multiple model types and return the best one with metrics."""
+    from sklearn.model_selection import cross_val_score, StratifiedKFold
+    from sklearn.metrics import classification_report, confusion_matrix
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.svm import SVC
+    from sklearn.neural_network import MLPClassifier
+    from sklearn.neighbors import KNeighborsClassifier
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.pipeline import Pipeline
+
+    models = {
+        "random_forest": RandomForestClassifier(
+            n_estimators=300,
+            max_depth=None,
+            min_samples_split=5,
+            min_samples_leaf=2,
+            n_jobs=-1,
+            random_state=42,
+            class_weight="balanced"
+        ),
+        "svm": Pipeline([
+            ("scaler", StandardScaler()),
+            ("svc", SVC(
                 C=1.0,
                 kernel="rbf",
                 gamma="scale",
                 probability=True,
                 class_weight="balanced",
-                random_state=self.random_state
-            )
-        elif self.model_type == "mlp":
-            return MLPClassifier(
-                hidden_layer_sizes=(256, 128, 64),
-                alpha=0.001,
-                max_iter=1000,
-                early_stopping=True,
-                validation_fraction=0.1,
-                random_state=self.random_state
-            )
-        elif self.model_type == "knn":
-            return KNeighborsClassifier(
+                random_state=42
+            ))
+        ]),
+        "knn": Pipeline([
+            ("scaler", StandardScaler()),
+            ("knn", KNeighborsClassifier(
                 n_neighbors=5,
                 weights="distance",
                 n_jobs=-1
-            )
-        else:
-            raise ValueError(f"Unknown model type: {self.model_type}")
+            ))
+        ]),
+        "mlp": Pipeline([
+            ("scaler", StandardScaler()),
+            ("mlp", MLPClassifier(
+                hidden_layer_sizes=(128, 64),
+                alpha=0.001,
+                max_iter=500,
+                early_stopping=True,
+                validation_fraction=0.1,
+                random_state=42
+            ))
+        ]),
+    }
 
-    def train(self) -> Dict:
-        """Train the model and return metrics."""
-        model = self.create_model()
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    best_model = None
+    best_score = -1.0
+    best_name = ""
+    results = {}
 
-        print(f"\nTraining {self.model_type}...")
-        model.fit(self.X_train, self.y_train)
+    logger.info("\nModel comparison (5-fold CV):")
+    logger.info("-" * 60)
 
-        # Cross-validation on training data
-        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=self.random_state)
-        cv_scores = cross_val_score(model, self.X_train, self.y_train, cv=cv, n_jobs=-1)
+    for name, model in models.items():
+        try:
+            scores = cross_val_score(model, X, y, cv=cv, n_jobs=-1, scoring="accuracy")
+            mean_score = scores.mean()
+            std_score = scores.std()
+            results[name] = {"mean": mean_score, "std": std_score, "scores": scores.tolist()}
+            logger.info(f"  {name:20s}  {mean_score:.4f} (+/- {std_score:.4f})")
 
-        # Test set evaluation
-        y_pred = model.predict(self.X_test)
-        test_accuracy = accuracy_score(self.y_test, y_pred)
+            if np.isfinite(mean_score) and mean_score > best_score:
+                best_score = mean_score
+                best_model = model
+                best_name = name
+        except Exception as e:
+            logger.warning(f"  {name:20s}  FAILED: {e}")
 
-        # Detailed metrics
-        report = classification_report(self.y_test, y_pred, output_dict=True, zero_division=0)
-        cm = confusion_matrix(self.y_test, y_pred, labels=self.classes)
+    logger.info("-" * 60)
+    logger.info(f"Best model: {best_name} (CV accuracy: {best_score:.4f})")
 
-        # Per-class metrics
-        precision, recall, f1, support = precision_recall_fscore_support(
-            self.y_test, y_pred, labels=self.classes, zero_division=0
-        )
+    # Train best model on all data
+    if best_model is None:
+        raise ValueError("No model could be trained. Collect at least five samples for each of two or more signs.")
+    best_model.fit(X, y)
 
-        metrics = {
-            "model_type": self.model_type,
-            "cv_accuracy_mean": float(cv_scores.mean()),
-            "cv_accuracy_std": float(cv_scores.std()),
-            "test_accuracy": float(test_accuracy),
-            "train_samples": len(self.X_train),
-            "test_samples": len(self.X_test),
-            "classes": self.classes,
-            "per_class": {
-                cls: {
-                    "precision": float(precision[i]),
-                    "recall": float(recall[i]),
-                    "f1": float(f1[i]),
-                    "support": int(support[i])
-                }
-                for i, cls in enumerate(self.classes)
-            },
-            "confusion_matrix": cm.tolist()
-        }
+    # Full evaluation on training data
+    y_pred = best_model.predict(X)
+    report = classification_report(y, y_pred, output_dict=True, zero_division=0)
+    cm = confusion_matrix(y, y_pred, labels=sorted(set(y)))
 
-        # Save model and metadata
-        self._save_model(model, metrics)
+    logger.info(f"\nTraining accuracy: {report['accuracy']:.4f}")
 
-        return metrics
+    # Per-class metrics
+    logger.info("\nPer-class metrics:")
+    classes = sorted(set(y))
+    for cls in classes:
+        if cls in report:
+            m = report[cls]
+            logger.info(f"  {cls:12s}  precision={m['precision']:.3f}  recall={m['recall']:.3f}  f1={m['f1-score']:.3f}  support={int(m['support'])}")
 
-    def _save_model(self, model, metrics: Dict):
-        """Save model, scaler, and metadata."""
-        # Save sklearn model
-        model_path = self.model_dir / "model.joblib"
-        joblib.dump(model, model_path)
+    # Confusion matrix for confusable pairs
+    logger.info("\nConfusion matrix (rows=true, cols=pred):")
+    logger.info("     " + "  ".join(f"{c:>5s}" for c in classes))
+    for i, cls in enumerate(classes):
+        row = cm[i]
+        logger.info(f"  {cls:>4s} " + "  ".join(f"{v:5d}" for v in row))
 
-        # Save feature normalization stats
-        stats_path = self.model_dir / "feature_stats.npz"
-        save_feature_stats(self.feature_mean, self.feature_std, stats_path)
+    # Highlight common confusions
+    logger.info("\nNotable confusions (off-diagonal > 5%):")
+    for i, true_cls in enumerate(classes):
+        for j, pred_cls in enumerate(classes):
+            if i != j and cm[i, j] > 0:
+                total = cm[i].sum()
+                pct = cm[i, j] / total * 100
+                if pct > 5:
+                    logger.info(f"  {true_cls} -> {pred_cls}: {cm[i, j]}/{total} ({pct:.1f}%)")
 
-        # Save labels
-        labels_path = self.model_dir / "labels.json"
-        with open(labels_path, 'w') as f:
-            json.dump(self.classes, f, indent=2)
+    metrics = {
+        "best_model": best_name,
+        "cv_accuracy": best_score,
+        "cv_std": results[best_name]["std"],
+        "train_accuracy": report["accuracy"],
+        "per_class": {k: v for k, v in report.items() if k not in ("accuracy", "macro avg", "weighted avg")},
+        "confusion_matrix": cm.tolist(),
+        "classes": classes,
+        "all_results": results
+    }
 
-        # Save metadata
-        meta_path = self.model_dir / "metadata.json"
-        with open(meta_path, 'w') as f:
-            json.dump(metrics, f, indent=2)
+    return best_model, metrics
 
-        # Save recognizer config
-        config = StaticRecognizerConfig()
-        recognizer = StaticRecognizer(config)
-        recognizer._model = model
-        recognizer._classes = self.classes
-        recognizer._feature_mean = self.feature_mean
-        recognizer._feature_std = self.feature_std
-        recognizer._label_to_idx = {label: i for i, label in enumerate(self.classes)}
-        recognizer._idx_to_label = {i: label for i, label in enumerate(self.classes)}
-        recognizer.save(self.model_dir / "recognizer")
 
-        print(f"\nModel saved to {self.model_dir}")
-        print(f"  - {model_path}")
-        print(f"  - {labels_path}")
-        print(f"  - {stats_path}")
-        print(f"  - {meta_path}")
-        print(f"  - recognizer.joblib + recognizer.json")
+def update_signs_json_with_references(
+    signs_path: Path,
+    reference_data: Dict[str, Dict],
+    model_classes: List[str]
+):
+    """Update signs.json with computed reference data and reference_source."""
+    with open(signs_path, "r", encoding="utf-8") as f:
+        signs = json.load(f)
 
-    def plot_confusion_matrix(self, cm: np.ndarray, output_path: Path):
-        """Plot and save confusion matrix."""
-        plt.figure(figsize=(14, 12))
-        sns.heatmap(
-            cm, annot=True, fmt='d', cmap='Blues',
-            xticklabels=self.classes, yticklabels=self.classes
-        )
-        plt.title(f'Confusion Matrix - {self.model_type}')
-        plt.xlabel('Predicted')
-        plt.ylabel('True')
-        plt.tight_layout()
-        plt.savefig(output_path, dpi=150)
-        plt.close()
-        print(f"Confusion matrix saved to {output_path}")
+    for sign in signs:
+        sign_id = sign["id"]
+        if sign_id in reference_data:
+            ref = reference_data[sign_id]
+            sign["reference"] = {
+                "median_landmarks": ref["median_landmarks"],
+                "landmark_tolerances": ref["landmark_tolerances"],
+                "finger_states": ref["finger_states"],
+                "joint_angles": ref["joint_angles"],
+                "sample_count": ref["sample_count"]
+            }
+            sign["reference_source"] = "recorded"
+            logger.info(f"  [{sign_id}] Updated with recorded reference ({ref['sample_count']} samples)")
+        elif sign.get("reference_source") != "recorded":
+            # Mark as rig-based if not already recorded
+            if "reference_source" not in sign:
+                sign["reference_source"] = "rig"
+                logger.info(f"  [{sign_id}] Marked as rig-based reference")
 
-    def plot_per_class_metrics(self, metrics: Dict, output_path: Path):
-        """Plot per-class precision, recall, F1."""
-        classes = metrics["classes"]
-        precision = [metrics["per_class"][c]["precision"] for c in classes]
-        recall = [metrics["per_class"][c]["recall"] for c in classes]
-        f1 = [metrics["per_class"][c]["f1"] for c in classes]
+    with open(signs_path, "w", encoding="utf-8") as f:
+        json.dump(signs, f, indent=2)
 
-        x = np.arange(len(classes))
-        width = 0.25
-
-        fig, ax = plt.subplots(figsize=(16, 6))
-        ax.bar(x - width, precision, width, label='Precision', color='#22D3EE')
-        ax.bar(x, recall, width, label='Recall', color='#4ADE80')
-        ax.bar(x + width, f1, width, label='F1', color='#FBBF24')
-
-        ax.set_xlabel('Class')
-        ax.set_ylabel('Score')
-        ax.set_title(f'Per-Class Metrics - {self.model_type}')
-        ax.set_xticks(x)
-        ax.set_xticklabels(classes, rotation=45, ha='right')
-        ax.legend()
-        ax.set_ylim(0, 1.05)
-        ax.grid(axis='y', alpha=0.3)
-
-        plt.tight_layout()
-        plt.savefig(output_path, dpi=150)
-        plt.close()
-        print(f"Per-class metrics plot saved to {output_path}")
-
-    def analyze_confusions(self, metrics: Dict, threshold: float = 0.3):
-        """Analyze and print common confusions."""
-        cm = np.array(metrics["confusion_matrix"])
-        classes = metrics["classes"]
-
-        print("\n🔍 Confusion Analysis (off-diagonal > 30%):")
-        print("-" * 50)
-
-        for i, true_class in enumerate(classes):
-            row = cm[i]
-            total = row.sum()
-            if total == 0:
-                continue
-
-            for j, pred_class in enumerate(classes):
-                if i != j and row[j] / total > threshold:
-                    print(f"  {true_class} → {pred_class}: {row[j]}/{total} ({row[j]/total:.1%})")
-
-        # Overall accuracy per class
-        print("\n📊 Per-Class Accuracy:")
-        print("-" * 50)
-        for i, cls in enumerate(classes):
-            total = cm[i].sum()
-            correct = cm[i, i]
-            acc = correct / total if total > 0 else 0
-            status = "✅" if acc >= 0.9 else "⚠️" if acc >= 0.7 else "❌"
-            print(f"  {status} {cls}: {acc:.1%} ({correct}/{total})")
+    logger.info(f"Updated {signs_path}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train ASL classifier from collected landmarks")
-    parser.add_argument("--data", "-d", default="data/collected",
-                       help="Directory with collected CSV files")
-    parser.add_argument("--output", "-o", default="content_packs/asl/model",
-                       help="Output directory for model")
-    parser.add_argument("--model", "-m", default="random_forest",
-                       choices=["random_forest", "svm", "mlp", "knn"],
-                       help="Model type")
-    parser.add_argument("--test-split", "-t", type=float, default=0.2,
-                       help="Test split ratio")
-    parser.add_argument("--no-augment", action="store_true",
-                       help="Disable data augmentation")
-    parser.add_argument("--plots", "-p", action="store_true",
-                       help="Generate plots (requires matplotlib)")
-
+    parser = argparse.ArgumentParser(description="Train ASL recognition model from samples")
+    parser.add_argument("--model-type", choices=["random_forest", "svm", "knn", "mlp", "auto"], default="auto", help="Model type (auto = best CV)")
+    parser.add_argument("--sample-dir", default=str(SAMPLE_DIR), help="Sample data directory")
+    parser.add_argument("--output-dir", default=str(MODEL_DIR), help="Model output directory")
+    parser.add_argument("--min-samples", type=int, default=10, help="Minimum samples per sign to include")
+    parser.add_argument("--force-model", help="Force specific model type (skip CV comparison)")
     args = parser.parse_args()
 
-    print("=" * 60)
-    print("ASL Model Training Tool")
-    print("=" * 60)
-    print(f"Data directory: {args.data}")
-    print(f"Output directory: {args.output}")
-    print(f"Model type: {args.model}")
-    print(f"Test split: {args.test_split}")
-    print(f"Augmentation: {not args.no_augment}")
-    print("=" * 60)
+    sample_dir = Path(args.sample_dir)
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    trainer = ModelTrainer(
-        data_dir=args.data,
-        model_dir=args.output,
-        model_type=args.model,
-        test_split=args.test_split,
-        augment=not args.no_augment
-    )
+    # Load content pack for sign metadata
+    loader = initialize_content_packs(PROJECT_ROOT / "content_packs")
+    pack = loader.get_current_pack()
 
-    try:
-        # Load data
-        X, y = trainer.load_data()
+    # Load samples
+    X, y, raw_landmarks, finger_states, angles = load_samples(sample_dir, args.min_samples)
 
-        if len(X) == 0:
-            print("ERROR: No data loaded!")
-            return 1
-
-        # Prepare
-        trainer.prepare_data(X, y)
-
-        # Train
-        metrics = trainer.train()
-
-        # Print results
-        print("\n" + "=" * 60)
-        print("TRAINING RESULTS")
-        print("=" * 60)
-        print(f"CV Accuracy: {metrics['cv_accuracy_mean']:.3f} ± {metrics['cv_accuracy_std']:.3f}")
-        print(f"Test Accuracy: {metrics['test_accuracy']:.3f}")
-        print(f"Train samples: {metrics['train_samples']}")
-        print(f"Test samples: {metrics['test_samples']}")
-
-        # Analyze confusions
-        trainer.analyze_confusions(metrics)
-
-        # Generate plots
-        if args.plots:
-            cm = np.array(metrics["confusion_matrix"])
-            trainer.plot_confusion_matrix(cm, Path(args.output) / "confusion_matrix.png")
-            trainer.plot_per_class_metrics(metrics, Path(args.output) / "per_class_metrics.png")
-
-        # Honest assessment
-        print("\n" + "=" * 60)
-        print("HONEST ASSESSMENT")
-        print("=" * 60)
-        if metrics['test_accuracy'] >= 0.9:
-            print("✅ Target accuracy (≥90%) ACHIEVED!")
-        else:
-            print(f"⚠️  Target accuracy (90%) NOT reached. Current: {metrics['test_accuracy']:.1%}")
-            print("\nRecommendations:")
-            print("  1. Collect more diverse samples (different lighting, angles, people)")
-            print("  2. Focus on confused pairs (see confusion analysis above)")
-            print("  3. Try different model (SVM or MLP might work better)")
-            print("  4. Increase augmentation")
-            print("  5. Check for label errors in collected data")
-
-        print("=" * 60)
-
-    except Exception as e:
-        print(f"\n❌ ERROR: {e}")
-        import traceback
-        traceback.print_exc()
+    if len(X) == 0:
+        logger.error("No valid samples found. Run collect_samples.py first.")
         return 1
+
+    # Check which signs have enough samples
+    signs_with_samples = set(y)
+    scored_signs = [s.id for s in pack.signs.values() if s.scored and not s.metadata.get("motion_sign")]
+    missing_signs = set(scored_signs) - signs_with_samples
+
+    if missing_signs:
+        logger.warning(f"\nSigns with insufficient samples (need >= {args.min_samples}):")
+        for s in sorted(missing_signs):
+            logger.warning(f"  {s}")
+        logger.warning("These will keep reference_source='rig' and won't be in the classifier.")
+
+    # Train model
+    chosen_model = args.force_model or (args.model_type if args.model_type != "auto" else None)
+    if chosen_model:
+        # Use specific model
+        config = StaticRecognizerConfig(model_type=chosen_model)
+        recognizer = StaticRecognizer(config)
+        metrics = recognizer.train(X, y, class_names=sorted(set(y)))
+        best_name = chosen_model
+    else:
+        # Auto-select best model
+        model, metrics = train_and_evaluate_models(X, y)
+        # Wrap in StaticRecognizer for saving
+        config = StaticRecognizerConfig(model_type=metrics["best_model"])
+        recognizer = StaticRecognizer(config)
+        recognizer._model = model
+        recognizer._classes = metrics["classes"]
+        recognizer._label_to_idx = {label: i for i, label in enumerate(metrics["classes"])}
+        recognizer._idx_to_label = {i: label for i, label in enumerate(metrics["classes"])}
+        # Compute feature stats
+        # CV models were fitted to raw features (pipelines own their scaling).
+        recognizer._feature_mean = None
+        recognizer._feature_std = None
+        best_name = metrics["best_model"]
+
+    # Compute reference data for all signs with samples
+    reference_data = {}
+    for sign_id in signs_with_samples:
+        ref = compute_reference_data(
+            raw_landmarks[sign_id],
+            finger_states[sign_id],
+            angles[sign_id]
+        )
+        reference_data[sign_id] = ref
+
+    # Save model
+    model_path = output_dir / "model"
+    recognizer.save(model_path)
+    logger.info(f"\nModel saved to {model_path}.joblib + {model_path}.json")
+
+    # Update signs.json with references
+    signs_path = PROJECT_ROOT / "content_packs/asl/signs.json"
+    update_signs_json_with_references(signs_path, reference_data, metrics["classes"])
+
+    # Print summary
+    recorded = sum(1 for s in pack.signs.values() if s.id in reference_data)
+    rig = sum(1 for s in pack.signs.values() if s.scored and not s.metadata.get("motion_sign") and s.id not in reference_data)
+    motion = sum(1 for s in pack.signs.values() if s.metadata.get("motion_sign"))
+
+    logger.info(f"\n=== SUMMARY ===")
+    logger.info(f"Model: {best_name}")
+    logger.info(f"CV Accuracy: {metrics['cv_accuracy']:.4f} (+/- {metrics['cv_std']:.4f})")
+    logger.info(f"Train Accuracy: {metrics['train_accuracy']:.4f}")
+    logger.info(f"Signs with recorded reference: {recorded}")
+    logger.info(f"Signs with rig reference: {rig}")
+    logger.info(f"Motion signs (not classified): {motion}")
+    logger.info(f"Total scored signs: {recorded + rig + motion}")
 
     return 0
 
 
 if __name__ == "__main__":
+    import csv
     sys.exit(main())

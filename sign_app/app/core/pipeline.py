@@ -17,7 +17,7 @@ from app.core.recognizer import Recognizer, RecognitionResult, StaticRecognizer
 from app.core.smoothing import TemporalSmoother, ConfidenceMeter, DwellDetector
 from app.core.camera_devices import discover_camera_devices, find_device_by_id
 from app.core.camera_service import CameraService
-from app.core.inference_worker import InferenceWorker, InferenceRequest, InferenceResult
+from app.core.inference_worker import InferenceWorker, InferenceRequest, InferenceResult, CheckResult
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +41,8 @@ class PipelineResult:
     # Monotonic ID of the inference state attached to this camera frame. UI
     # consumers use it to avoid scoring the same prediction more than once.
     inference_frame_number: Optional[int] = None
+    # Sign checking (Task 2)
+    check_result: Optional[CheckResult] = None
 
 
 class CorePipeline(QObject):
@@ -92,6 +94,7 @@ class CorePipeline(QObject):
         self._latest_inference_frame_number: Optional[int] = None
         self._latest_target_sign_id: Optional[str] = None
         self._latest_target_landmarks: Optional[np.ndarray] = None
+        self._latest_check_result: Optional[CheckResult] = None
 
     def initialize(self, use_fake_camera: bool = False) -> bool:
         """Initialize all components."""
@@ -177,6 +180,7 @@ class CorePipeline(QObject):
             target_sign_id=self._latest_target_sign_id,
             target_landmarks=self._latest_target_landmarks,
             inference_frame_number=self._latest_inference_frame_number,
+            check_result=self._latest_check_result,
         )
         self.result_ready.emit(result)
 
@@ -198,6 +202,8 @@ class CorePipeline(QObject):
         # Do not emit a second result here: it has no image, and emitting it
         # caused consumers to treat landmarks as a frame.  The next capture
         # frame will carry this state and repaint the overlay.
+        if self._target_sign_id is not None and result.target_sign_id != self._target_sign_id:
+            return
         self._latest_hands = result.hands
         self._latest_recognition = result.recognition
         self._latest_smoothed = result.smoothed
@@ -207,6 +213,7 @@ class CorePipeline(QObject):
         self._latest_inference_frame_number = result.frame_number
         self._latest_target_sign_id = result.target_sign_id
         self._latest_target_landmarks = result.target_landmarks
+        self._latest_check_result = result.check_result
 
     @Slot(float)
     def _on_inference_fps(self, fps: float) -> None:
@@ -242,12 +249,13 @@ class CorePipeline(QObject):
         """Load recognition model."""
         try:
             self._recognizer = StaticRecognizer.load(model_path)
+            if self._inference_worker and not self._inference_worker.load_model(model_path):
+                self._recognizer = None
+                self.model_loaded.emit(False, "Unable to load inference model")
+                return False
             self.model_loaded.emit(True, f"Model loaded: {len(self._recognizer.get_classes())} classes")
             logger.info(f"Model loaded successfully with classes: {self._recognizer.get_classes()}")
             
-            # Load model into inference worker
-            if self._inference_worker:
-                self._inference_worker.load_model(model_path)
             return True
         except Exception as e:
             logger.error(f"Failed to load model: {e}")
@@ -293,6 +301,7 @@ class CorePipeline(QObject):
 
     def _clear_latest_inference(self) -> None:
         """Discard feedback for the previous lesson target immediately."""
+        self._latest_check_result = None
         self._latest_hands = []
         self._latest_recognition = None
         self._latest_smoothed = None
@@ -341,7 +350,7 @@ class CorePipeline(QObject):
         virtual camera such as OBS is enabled or disabled, so it must never be
         used to identify a device.
         """
-        if not self._camera_worker:
+        if not self._camera_worker or isinstance(self._camera_worker, FakeCameraWorker):
             return
         device = find_device_by_id(discover_camera_devices(), device_id)
         if device is None:

@@ -98,12 +98,22 @@ class StaticRecognizer(Recognizer):
 
     def _create_model(self):
         """Create the underlying sklearn model based on config."""
-        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
         from sklearn.svm import SVC
         from sklearn.neural_network import MLPClassifier
         from sklearn.neighbors import KNeighborsClassifier
 
-        if self.config.model_type == "random_forest":
+        if self.config.model_type == "extra_trees":
+            return ExtraTreesClassifier(
+                n_estimators=self.config.n_estimators,
+                max_depth=self.config.max_depth,
+                min_samples_split=self.config.min_samples_split,
+                min_samples_leaf=self.config.min_samples_leaf,
+                class_weight="balanced",
+                random_state=42,
+                n_jobs=-1,
+            )
+        elif self.config.model_type == "random_forest":
             return RandomForestClassifier(
                 n_estimators=self.config.n_estimators,
                 max_depth=self.config.max_depth,
@@ -283,7 +293,7 @@ class StaticRecognizer(Recognizer):
         model_path = path.with_suffix('.joblib')
         meta_path = path.with_suffix('.json')
 
-        joblib.dump(self._model, model_path)
+        joblib.dump(self._model, model_path, compress=3)
 
         metadata = {
             "config": {
@@ -334,7 +344,7 @@ class StaticRecognizer(Recognizer):
 
         recognizer._classes = metadata["classes"]
         recognizer._label_to_idx = metadata["label_to_idx"]
-        recognizer._idx_to_label = {int(k): v for k, v in metadata["label_to_idx"].items()}
+        recognizer._idx_to_label = {int(index): label for label, index in metadata["label_to_idx"].items()}
 
         if metadata.get("feature_mean"):
             recognizer._feature_mean = np.array(metadata["feature_mean"])

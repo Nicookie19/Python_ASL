@@ -20,7 +20,7 @@ Item {
         { "id": "asl_fingerspelling_2", "title": "Fingerspelling F–J", "description": "Practice clear finger positions and motion signs.", "progress": 0.18, "lessons": 5, "tone": "violet" },
         { "id": "asl_numbers_1", "title": "Numbers 0–5", "description": "Learn everyday number signs at a comfortable pace.", "progress": 0.00, "lessons": 6, "tone": "amber" }
     ]
-    readonly property var activeModules: modules && modules.length ? modules : exampleModules
+    readonly property var activeModules: modules || []
     readonly property string learnerName: user && user.name ? user.name : "Learner"
 
     signal moduleSelected(string moduleId)
@@ -29,7 +29,7 @@ Item {
     Theme { id: theme; isDark: homeScreen.darkMode }
 
     function progressValue(module) {
-        if (module.progress !== undefined) return module.progress
+        if (module && module.progress !== undefined) return module.progress
         return 0
     }
 
@@ -74,6 +74,8 @@ Item {
                         font.weight: Font.Bold
                     }
                     Text {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
                         text: "A few focused minutes today will make your signs feel more natural."
                         color: theme.textMuted()
                         font.family: theme.fontFamily
@@ -105,6 +107,7 @@ Item {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 206
+                clip: true
                 radius: theme.radiusLg
                 color: theme.accentSoft()
                 border.color: "#2B647A"
@@ -131,21 +134,21 @@ Item {
                         Layout.fillWidth: true
                         spacing: theme.space2
                         Text {
-                            text: "Continue where you left off"
+                            text: "YOUR DAILY PRACTICE"
                             color: theme.textMuted()
                             font.family: theme.fontFamily
                             font.pixelSize: theme.textSm
                             font.weight: Font.DemiBold
                         }
                         Text {
-                            text: homeScreen.activeModules[0].title
+                            text: (homeScreen.activeModules.length ? homeScreen.activeModules[0].title : "No lessons available")
                             color: theme.text()
                             font.family: theme.fontFamily
                             font.pixelSize: theme.textXl
                             font.weight: Font.Bold
                         }
                         Text {
-                            text: Math.round(homeScreen.progressValue(homeScreen.activeModules[0]) * 100) + "% complete  •  " + homeScreen.activeModules[0].lessons + " signs"
+                            text: Math.round(homeScreen.progressValue(homeScreen.activeModules[0]) * 100) + "% complete  •  " + (homeScreen.activeModules.length ? homeScreen.activeModules[0].lessons : 0) + " signs"
                             color: theme.textMuted()
                             font.family: theme.fontFamily
                             font.pixelSize: theme.textSm
@@ -167,7 +170,8 @@ Item {
 
                     Button {
                         id: resumeButton
-                        text: "Resume  ›"
+                        text: "Practice  ›"
+                        enabled: homeScreen.activeModules.length > 0
                         Layout.preferredWidth: 128
                         Layout.preferredHeight: 48
                         onClicked: homeScreen.moduleSelected(homeScreen.activeModules[0].id)

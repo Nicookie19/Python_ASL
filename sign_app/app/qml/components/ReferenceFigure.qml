@@ -10,110 +10,158 @@ Item {
     property bool mirror: true
     property bool darkMode: true
     property string label: ""
+    property string imageSource: ""
     property string status: ""
     property string statusState: "info"
-
-    readonly property var handConnections: [
-        [0, 1], [1, 2], [2, 3], [3, 4],
-        [0, 5], [5, 6], [6, 7], [7, 8],
-        [0, 9], [9, 10], [10, 11], [11, 12],
-        [0, 13], [13, 14], [14, 15], [15, 16],
-        [0, 17], [17, 18], [18, 19], [19, 20],
-        [5, 9], [9, 13], [13, 17]
-    ]
+    property real holdProgress: 0
 
     Theme { id: theme; isDark: referenceFigure.darkMode }
 
-    Canvas {
-        id: canvas
+    // Fallback: draws a simple letter card when no image is available
+    function fallbackSource() {
+        return ""
+    }
+
+    Rectangle {
+        id: cardBackground
         anchors.fill: parent
-        antialiasing: true
+        radius: theme.radiusMd
+        color: theme.surface()
+        border.color: theme.border()
+        border.width: 1
+    }
 
-        function pointAt(points, index) {
-            if (!points || index >= points.length)
-                return null
-            var point = points[index]
-            if (point === undefined || point === null)
-                return null
-            return {
-                x: point.x !== undefined ? point.x : point[0],
-                y: point.y !== undefined ? point.y : point[1]
+    Image {
+        id: signImage
+        anchors.fill: parent
+        anchors.margins: theme.space2
+        source: referenceFigure.imageSource
+        fillMode: Image.PreserveAspectFit
+        asynchronous: true
+        cache: true
+        sourceSize.width: 512
+        sourceSize.height: 512
+
+        // Fallback to letter card if image fails to load
+        onStatusChanged: {
+            if (signImage.status === Image.Error || signImage.status === Image.Null) {
+                letterCard.visible = true
+                signImage.visible = false
+                console.warn("ReferenceFigure: Failed to load image for", referenceFigure.label, "- using fallback")
+            } else if (signImage.status === Image.Ready) {
+                letterCard.visible = false
+                signImage.visible = true
             }
         }
+    }
 
-        function displayPoint(point, padding) {
-            padding = padding || 0.08
-            return {
-                x: padding + (referenceFigure.mirror ? 1 - point.x : point.x) * (1 - 2 * padding),
-                y: padding + point.y * (1 - 2 * padding)
-            }
+    // Fallback letter card - shown when image is missing or fails to load
+    Rectangle {
+        id: letterCard
+        anchors.centerIn: parent
+        width: Math.min(parent.width, parent.height) * 0.7
+        height: width
+        radius: theme.radiusMd
+        color: theme.accentSoft()
+        border.color: theme.accent()
+        border.width: 2
+        visible: !signImage.source || signImage.status === Image.Error || signImage.status === Image.Null
+
+        Text {
+            anchors.centerIn: parent
+            text: referenceFigure.label ? referenceFigure.label : "?"
+            color: theme.accent()
+            font.family: theme.fontFamily
+            font.pixelSize: width * 0.5
+            font.weight: Font.Bold
         }
+    }
 
-        function landmarkColor(point, index) {
-            return theme.accent()
+    // Motion sign badge
+    Rectangle {
+        id: motionBadge
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: theme.space2
+        width: 70
+        height: 24
+        radius: height / 2
+        color: theme.warning()
+        visible: referenceFigure.status === "motion" || referenceFigure.label === "J" || referenceFigure.label === "Z"
+        Text {
+            anchors.centerIn: parent
+            text: "Motion"
+            color: "#06212B"
+            font.family: theme.fontFamily
+            font.pixelSize: theme.textXs
+            font.weight: Font.DemiBold
+            padding: theme.space2
         }
+    }
 
-        onPaint: {
-            var context = getContext("2d")
-            context.clearRect(0, 0, width, height)
-
-            if (!referenceFigure.targetLandmarks || referenceFigure.targetLandmarks.length !== 21)
-                return
-
-            var points = []
-            for (var index = 0; index < 21; index++) {
-                var raw = pointAt(referenceFigure.targetLandmarks, index)
-                if (raw) points[index] = displayPoint(raw)
-            }
-
-            var scale = Math.min(width, height)
-            var lineWidth = Math.max(2, scale * 0.012)
-
-            // Draw connections
-            context.lineWidth = lineWidth
-            context.lineCap = "round"
-            context.lineJoin = "round"
-            context.strokeStyle = theme.accent()
-            context.globalAlpha = 0.55
-            for (var line = 0; line < referenceFigure.handConnections.length; line++) {
-                var pair = referenceFigure.handConnections[line]
-                var start = points[pair[0]]
-                var end = points[pair[1]]
-                if (!start || !end) continue
-                context.beginPath()
-                context.moveTo(start.x * scale, start.y * scale)
-                context.lineTo(end.x * scale, end.y * scale)
-                context.stroke()
-            }
-            context.globalAlpha = 1
-
-            // Draw joints
-            var baseRadius = Math.max(4, scale * 0.018)
-            for (var dot = 0; dot < points.length; dot++) {
-                if (!points[dot]) continue
-                var radius = (dot === 8) ? baseRadius * 1.3 : baseRadius
-                var color = theme.accent()
-                context.fillStyle = color
-                context.beginPath()
-                context.arc(points[dot].x * scale, points[dot].y * scale, radius, 0, Math.PI * 2)
-                context.fill()
-
-                // White highlight on fingertip
-                if (dot === 8 || dot === 4 || dot === 12 || dot === 16 || dot === 20) {
-                    context.fillStyle = theme.text()
-                    context.globalAlpha = 0.4
-                    context.beginPath()
-                    context.arc(points[dot].x * scale, points[dot].y * scale, radius * 0.4, 0, Math.PI * 2)
-                    context.fill()
-                    context.globalAlpha = 1
+    // Hold progress ring (shows when evaluating)
+    Rectangle {
+        id: holdRing
+        anchors.centerIn: parent
+        width: parent.width * 0.85
+        height: width
+        visible: referenceFigure.status === "evaluating" || referenceFigure.status === "hold"
+        Canvas {
+            anchors.fill: parent
+            onPaint: {
+                var ctx = getContext("2d")
+                ctx.clearRect(0, 0, width, height)
+                var centerX = width / 2
+                var centerY = height / 2
+                var radius = Math.min(width, height) / 2 - 4
+                // Background ring
+                ctx.lineWidth = 6
+                ctx.strokeStyle = theme.surfaceMuted()
+                ctx.beginPath()
+                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2)
+                ctx.stroke()
+                // Progress ring
+                if (referenceFigure.holdProgress !== undefined) {
+                    ctx.strokeStyle = theme.accent()
+                    ctx.lineCap = "round"
+                    ctx.beginPath()
+                    ctx.arc(centerX, centerY, radius, -Math.PI/2, -Math.PI/2 + Math.PI * 2 * referenceFigure.holdProgress)
+                    ctx.stroke()
                 }
             }
         }
     }
 
+    // Status indicator (correct/wrong/evaluating)
+    Rectangle {
+        id: statusIndicator
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: Math.min(parent.width, statusLabel.implicitWidth + 16)
+        height: 28
+        radius: height / 2
+        color: theme.stateSurface(referenceFigure.statusState)
+        border.width: 1
+        border.color: theme.stateColor(referenceFigure.statusState)
+        visible: referenceFigure.status.length > 0
+
+        Text {
+            anchors.centerIn: parent
+            padding: theme.space2
+            id: statusLabel
+            text: referenceFigure.status
+            color: theme.stateColor(referenceFigure.statusState)
+            font.family: theme.fontFamily
+            font.pixelSize: theme.textSm
+            font.weight: Font.Medium
+        }
+    }
+
+    // Label at bottom
     Text {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+        visible: !referenceFigure.imageSource && !referenceFigure.status
         text: referenceFigure.label ? referenceFigure.label : "Reference"
         color: theme.textMuted()
         font.family: theme.fontFamily
@@ -121,8 +169,7 @@ Item {
         font.weight: Font.Medium
     }
 
-    onTargetLandmarksChanged: canvas.requestPaint()
-    onMirrorChanged: canvas.requestPaint()
-    onWidthChanged: canvas.requestPaint()
-    onHeightChanged: canvas.requestPaint()
+    onImageSourceChanged: {
+        signImage.source = referenceFigure.imageSource
+    }
 }

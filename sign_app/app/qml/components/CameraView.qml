@@ -12,6 +12,7 @@ Item {
     property string imageSource: ""
     property var hands: []
     property var targetLandmarks: null
+    property var checkResult: null
     property bool mirror: true
     property string statusText: "Position one hand in the frame"
     property string statusState: "info"
@@ -150,25 +151,33 @@ Item {
             }
 
             function landmarkColor(point, index) {
-                return theme.accent()
-            }
-
-            function targetLandmarkColor(index) {
-                var target = pointAt(cameraView.targetLandmarks, index)
-                if (!target)
-                    return theme.accent()
-                var userPoint = null
-                if (cameraView.hands && cameraView.hands.length > 0) {
+                // Use checkResult for per-joint coloring if available
+                if (cameraView.checkResult && cameraView.checkResult.joint_statuses) {
+                    for (var i = 0; i < cameraView.checkResult.joint_statuses.length; i++) {
+                        var js = cameraView.checkResult.joint_statuses[i]
+                        if (js.index === index) {
+                            if (js.status === "correct") return theme.success()
+                            if (js.status === "close") return theme.warning()
+                            return theme.danger()
+                        }
+                    }
+                }
+                // Fallback to target-based coloring
+                if (cameraView.targetLandmarks && cameraView.targetLandmarks.length === 21 &&
+                    cameraView.hands && cameraView.hands.length > 0) {
+                    var target = pointAt(cameraView.targetLandmarks, index)
+                    var userPoint = null
                     var landmarks = cameraView.hands[0].landmarks || cameraView.hands[0]
                     userPoint = pointAt(landmarks, index)
+                    if (target && userPoint) {
+                        var distance = Math.sqrt(Math.pow(target.x - userPoint.x, 2)
+                                                 + Math.pow(target.y - userPoint.y, 2))
+                        if (distance < 0.05) return theme.success()
+                        if (distance < 0.12) return theme.warning()
+                        return theme.danger()
+                    }
                 }
-                if (!userPoint)
-                    return theme.accent()
-                var distance = Math.sqrt(Math.pow(target.x - userPoint.x, 2)
-                                         + Math.pow(target.y - userPoint.y, 2))
-                if (distance < 0.05) return theme.success()
-                if (distance < 0.12) return theme.warning()
-                return theme.danger()
+                return theme.accent()
             }
 
             onPaint: {

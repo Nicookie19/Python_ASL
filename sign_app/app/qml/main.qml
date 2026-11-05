@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.15
 
 import "screens"
 import "theme"
+import "components"
 
 ApplicationWindow {
     id: appShell
@@ -15,13 +16,31 @@ ApplicationWindow {
     title: "Pysign"
 
     property var bridgeObject: typeof bridge === "undefined" ? null : bridge
-    property bool darkMode: true
+    property bool darkMode: bridgeObject ? bridgeObject.settings.theme !== "light" : true
 
     Theme { id: theme; isDark: appShell.darkMode }
     color: theme.background()
+    palette.window: theme.background()
+    palette.windowText: theme.text()
+    palette.base: theme.surfaceRaised()
+    palette.text: theme.text()
+    palette.button: theme.surfaceRaised()
+    palette.buttonText: theme.text()
+    palette.highlight: theme.accent()
+    palette.highlightedText: "#06212B"
+    palette.placeholderText: theme.textMuted()
+    palette.mid: theme.border()
+
+    function openLibrary(mode) { pageStack.push(libraryPage, { "mode": mode }) }
+    function goBack() { if (pageStack.depth > 1) pageStack.pop() }
+
 
     function openLesson(moduleId) {
         pageStack.push(lessonPage, { "moduleId": moduleId })
+    }
+
+    function openSettings() {
+        pageStack.push(settingsPage)
     }
 
     function showNotice(message) {
@@ -73,7 +92,7 @@ ApplicationWindow {
                 id: themeToggleButton
                 text: appShell.darkMode ? "☀  Light" : "◐  Dark"
                 Layout.preferredHeight: 38
-                onClicked: appShell.darkMode = !appShell.darkMode
+                onClicked: { appShell.darkMode = !appShell.darkMode; if (appShell.bridgeObject) appShell.bridgeObject.setDarkMode(appShell.darkMode) }
                 background: Rectangle {
                     radius: theme.radiusPill
                     color: themeToggleButton.down ? theme.surfaceMuted() : theme.surfaceRaised()
@@ -110,7 +129,13 @@ ApplicationWindow {
             modules: appShell.bridgeObject ? appShell.bridgeObject.modules : []
             darkMode: appShell.darkMode
             onModuleSelected: appShell.openLesson(moduleId)
-            onActionSelected: appShell.showNotice(action + " is coming next.")
+            onActionSelected: {
+                if (action === "settings") {
+                    appShell.openSettings()
+                } else {
+                    appShell.openLibrary(action)
+                }
+            }
         }
     }
 
@@ -125,6 +150,35 @@ ApplicationWindow {
             darkMode: appShell.darkMode
             onBackRequested: pageStack.pop()
             Component.onCompleted: prepare(moduleId, 0)
+        }
+    }
+
+    Component {
+        id: settingsPage
+        SettingsScreen {
+            objectName: "settingsScreen"
+            pipeline: appShell.bridgeObject
+            cameraService: appShell.bridgeObject
+            darkMode: appShell.darkMode
+            currentUser: appShell.bridgeObject ? appShell.bridgeObject.currentUser : null
+            onBackRequested: pageStack.pop()
+        }
+    }
+
+    Component {
+        id: libraryPage
+        LibraryScreen {
+            pipeline: appShell.bridgeObject
+            darkMode: appShell.darkMode
+            onBackRequested: pageStack.pop()
+            onPracticeRequested: appShell.openLesson(signId)
+        }
+    }
+
+    Connections {
+        target: appShell.bridgeObject
+        function onStatusChanged(message, state) {
+            if (state === "error" || pageStack.currentItem && pageStack.currentItem.objectName === "settingsScreen") appShell.showNotice(message)
         }
     }
 
